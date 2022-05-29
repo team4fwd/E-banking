@@ -1,0 +1,41 @@
+.sidebar {
+  flex: 1;
+  height: calc(100vh - 50px);
+  position: sticky;
+  top: 50px;
+  font-size: 18px;
+  background-color: rgb(251, 251, 255);
+
+  &__wrapper {
+    padding: 20px;
+    color: #555;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(187, 186, 186);
+  }
+
+  &__list {
+    list-style: none;
+    padding: 5px;
+
+    &-item {
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+      gap: 5px;
+
+      &.active,
+      &:hover {
+        background-color: rgb(240, 240, 255);
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 20px;
+  }
+}

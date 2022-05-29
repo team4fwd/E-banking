@@ -1,0 +1,51 @@
+.featured {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__item {
+    flex: 1;
+    margin: 0 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__money-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 20px;
+  }
+
+  &__money {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  &__money-rate {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+  }
+
+  &__icon {
+    font-size: 15px;
+    margin-left: 5px;
+    color: green;
+
+    &-negative {
+      color: red;
+    }
+  }
+
+  &__sub {
+    color: gray;
+    font-size: 15px;
+  }
+}
