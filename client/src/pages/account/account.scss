@@ -1,0 +1,78 @@
+.account {
+  .top {
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+
+    .left {
+      flex: 1;
+      -webkit-box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(0, 0, 0, 0.47);
+      box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201, 201, 201, 0.47);
+      padding: 2rem;
+      position: relative;
+
+      .editButton {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        color: #7451f8;
+        background-color: #7551f818;
+        cursor: pointer;
+        border-radius: 0rem 0rem 0rem 0.5rem;
+      }
+
+      .item {
+        display: flex;
+        gap: 2rem;
+
+        .itemImg {
+          width: 10rem;
+          height: 10rem;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .details {
+          .itemTitle {
+            margin-bottom: 1rem;
+            color: #555;
+          }
+
+          .detailItem {
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+
+            .itemKey {
+              font-weight: bold;
+              color: gray;
+              margin-right: 0.5rem;
+            }
+
+            .itemValue {
+              font-weight: 300;
+            }
+          }
+        }
+      }
+    }
+
+    .right {
+      flex: 2;
+    }
+  }
+
+  .bottom {
+    -webkit-box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(0, 0, 0, 0.47);
+    box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201, 201, 201, 0.47);
+    padding: 2rem;
+    margin: 1rem 2rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    color: lightgray;
+    margin-bottom: 2rem;
+  }
+}
