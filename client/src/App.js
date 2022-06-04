@@ -11,6 +11,7 @@ import { useState } from 'react';
 import './styles/dark.scss';
 import List from './pages/list/List';
 import New from './pages/new/New';
+import Transactions from './pages/transactions/Transactions';
 
 const App = () => {
   const [dark, setDark] = useState(false);
@@ -29,7 +30,7 @@ const App = () => {
                 element={<New inputs={userInputs} title='Add New User' />}
               />
             </Route>
-            <Route path='transactions' element={<List />} />
+            <Route path='transactions' element={<Transactions />} />
           </Route>
           <Route path='/admin' element={<Admin />}>
             <Route index element={<AdminHome />} />
