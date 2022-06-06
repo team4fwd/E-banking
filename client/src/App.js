@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import Admin from './pages/admin/Admin';
 import AdminHome from './pages/admin/AdminHome';
 import UsersList from './pages/admin/UsersList';
@@ -12,15 +17,32 @@ import './styles/dark.scss';
 import List from './pages/list/List';
 import New from './pages/new/New';
 import Transactions from './pages/transactions/Transactions';
+import Login from './pages/login/Login';
+import Signup from './pages/signup/signup';
+import LoadingBar from 'react-redux-loading-bar';
+import { useSelector } from 'react-redux';
+import Private from './util/Private';
 
 const App = () => {
   const [dark, setDark] = useState(false);
+  const { userInfo } = useSelector((state) => state.user);
+  const isActive = userInfo?.isActive;
+  const isAdmin = userInfo?.isAdmin;
+  console.log(isAdmin, isActive);
 
   return (
     <div className={`user-view ${dark ? 'dark' : ''}`}>
       <Router>
+        <LoadingBar showFastActions />
         <Routes>
-          <Route path='/' element={<Layout setDark={setDark} />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route
+            path='/'
+            element={
+              isActive ? <Layout setDark={setDark} /> : <Navigate to='/login' />
+            }
+          >
             <Route index element={<Home />} />
             <Route path='accounts'>
               <Route index element={<List />} />
@@ -32,12 +54,14 @@ const App = () => {
             </Route>
             <Route path='transactions' element={<Transactions />} />
           </Route>
-          <Route path='/admin' element={<Admin />}>
-            <Route index element={<AdminHome />} />
-            <Route path='home' element={<AdminHome />} />
-            <Route path='user' element={<User />} />
-            <Route path='usersList' element={<UsersList />} />
-          </Route>
+          {isAdmin && (
+            <Route path='/admin' element={<Admin />}>
+              <Route index element={<AdminHome />} />
+              <Route path='home' element={<AdminHome />} />
+              <Route path='user' element={<User />} />
+              <Route path='usersList' element={<UsersList />} />
+            </Route>
+          )}
         </Routes>
       </Router>
     </div>

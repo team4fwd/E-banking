@@ -13,7 +13,7 @@ const userReducer = (state = {}, action) => {
     case LOGIN_FAIL:
       return { error: action.errMsg };
     case REGISTER:
-      return { userInfo: action.user };
+      return { message: action.msg };
     case REGISTER_FAIL:
       return { error: action.errMsg };
     case LOGOUT:

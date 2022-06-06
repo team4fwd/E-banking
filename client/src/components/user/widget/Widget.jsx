@@ -14,9 +14,11 @@ const Widget = ({ type }) => {
         <div className='widget__left-counter'>
           {data.isMoney && '$'} {data.amount}
         </div>
-        <Link to={data.href}>
-          <div className='widget__left-link'>{data.link}</div>
-        </Link>
+        {data.link && (
+          <Link to={data.href}>
+            <div className='widget__left-link'>{data.link}</div>
+          </Link>
+        )}
       </div>
       <div className='widget__right'>
         {data.isMoney ? (

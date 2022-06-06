@@ -17,9 +17,9 @@ const loginFailed = (errMsg) => ({
   errMsg,
 });
 
-const register = (user) => ({
+const register = (msg) => ({
   type: REGISTER,
-  user,
+  msg,
 });
 
 const registerFailed = (errMsg) => ({
@@ -34,16 +34,12 @@ const logUserOut = () => ({
 const loginUser = (userInfo) => async (dispatch) => {
   try {
     dispatch(showLoading());
-    const data = await LogInAPI(userInfo);
-    if (data.status === true) {
-      const { user } = data;
-      user.token = data.accesstoken;
+    const { user, error } = await LogInAPI(userInfo);
+    dispatch(hideLoading());
+    if (error) throw new Error(error);
+    if (user) {
       dispatch(logUserIn(user));
       localStorage.setItem('userInfo', JSON.stringify(user));
-    }
-    dispatch(hideLoading());
-    if (data.status === false) {
-      throw new Error(data.message);
     }
   } catch (err) {
     dispatch(loginFailed(err.message));
@@ -53,19 +49,12 @@ const loginUser = (userInfo) => async (dispatch) => {
 const registerUser = (userInfo) => async (dispatch) => {
   try {
     dispatch(showLoading());
-    const data = await SignUpAPI(userInfo);
-
-    if (data.status === true) {
-      const { user } = data;
-      dispatch(register(user));
-    }
+    const { error, msg } = await SignUpAPI(userInfo);
     dispatch(hideLoading());
-    if (data.status === false) {
-      throw new Error(data.message);
-    }
+    if (error) throw new Error(error);
+    if (msg) dispatch(register(msg));
   } catch (err) {
     dispatch(registerFailed(err.message));
-    console.log(err.message);
   }
 };
 

@@ -2,8 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -12,11 +10,11 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Field, reduxForm } from 'redux-form';
 import { useEffect, useState } from 'react';
-import validate from './loginValidation';
+import validate from './signupValidation';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../store/actions/userActions';
+import { registerUser } from '../../store/actions/userActions';
 import Alert from '../../components/Alert/Alert';
 
 const Copyright = (props) => {
@@ -66,31 +64,36 @@ const theme = createTheme({
       fontSize: '1.3rem',
     },
   },
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536, cs: 1297 },
+  },
 });
 
-let SignInSide = (props) => {
+const Login = (props) => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userInfo, error } = useSelector((state) => state.user);
+  const { message, error } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (userInfo) {
-      if (userInfo.isAdmin === true) navigate(`/admin`);
-      if (userInfo.isAdmin === false) navigate(`/`);
-    }
-  }, [userInfo, navigate]);
+  // useEffect(() => {
+  //   if (message) navigate(`/login`);
+  // }, [navigate, message]);
 
-  const submitHandler = (user) => {
-    dispatch(loginUser(user));
+  const submitHandler = async (user) => {
+    dispatch(registerUser(user));
   };
 
   const { handleSubmit, pristine, submitting } = props;
 
   return (
     <ThemeProvider theme={theme}>
-      {error && <Alert variant='error' msg={error} />}
+      {error && <Alert variant='error' msg={error} time={7} />}
+      {message && <Alert variant='info' msg={message} time={7} />}
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -129,9 +132,13 @@ let SignInSide = (props) => {
               component='form'
               noValidate
               onSubmit={handleSubmit(submitHandler)}
-              sx={{ mt: 1 }}
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                textAlign: 'center',
+              }}
             >
               <Field
+                sx={{ width: { cs: '100% !important', md: '25ch' } }}
                 name='email'
                 id='email'
                 margin='normal'
@@ -143,23 +150,62 @@ let SignInSide = (props) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <Field
-                margin='normal'
-                required
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                component={renderTextField}
-                autoComplete='current-password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <FormControlLabel
-                control={<Checkbox value='remember' color='primary' />}
-                label='Remember me'
-              />
+              <div>
+                <Field
+                  name='name'
+                  id='name'
+                  margin='normal'
+                  required
+                  fullWidth
+                  component={renderTextField}
+                  label='Your Name'
+                  autoComplete='name'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Field
+                  name='phone'
+                  id='phone'
+                  margin='normal'
+                  required
+                  fullWidth
+                  component={renderTextField}
+                  label='Phone'
+                  type='number'
+                  autoComplete='phone'
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div>
+                {' '}
+                <Field
+                  margin='normal'
+                  required
+                  fullWidth
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  component={renderTextField}
+                  autoComplete='current-password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Field
+                  margin='normal'
+                  required
+                  fullWidth
+                  name='confirmPassword'
+                  label='Confirm Password'
+                  type='password'
+                  id='confirmPassword'
+                  component={renderTextField}
+                  autoComplete='current-confirmPassword'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
               <Button
                 type='submit'
                 disabled={pristine || submitting}
@@ -167,7 +213,7 @@ let SignInSide = (props) => {
                 variant='contained'
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign up
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -176,8 +222,8 @@ let SignInSide = (props) => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link component={RouterLink} to='/signup' variant='body2'>
-                    {"Don't have an account? Sign Up"}
+                  <Link component={RouterLink} to='/login' variant='body2'>
+                    {'Do you have an account? Log in'}
                   </Link>
                 </Grid>
               </Grid>
@@ -191,6 +237,6 @@ let SignInSide = (props) => {
 };
 
 export default reduxForm({
-  form: 'SignInSide',
+  form: 'Login',
   validate,
-})(SignInSide);
+})(Login);

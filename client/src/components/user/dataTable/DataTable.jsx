@@ -23,14 +23,8 @@ const DataTable = () => {
               to={`/accounts/${params.row.id}`}
               style={{ textDecoration: 'none' }}
             >
-              <div className='viewButton'>View</div>
+              <div className='viewButton'>View Details</div>
             </Link>
-            <div
-              className='deleteButton'
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
-            </div>
           </div>
         );
       },
@@ -40,7 +34,7 @@ const DataTable = () => {
     <div className='datatable'>
       <div className='datatableTitle'>
         Add New Account
-        <Link to='/users/new' className='link'>
+        <Link to='/accounts/new' className='link'>
           Add New
         </Link>
       </div>
