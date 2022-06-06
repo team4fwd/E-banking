@@ -54,4 +54,67 @@
     color: red;
     cursor: pointer;
   }
+
+  &__rejectedIcon {
+    font-size: 24px;
+    color: red;
+  }
+  &__rejected {
+    color: red;
+    border: 1px solid red;
+    border-radius: 12px;
+    padding: 3px;
+    display: inline-block;
+  }
+  &__accepted {
+    color: green;
+    border: 1px solid green;
+    border-radius: 12px;
+    padding: 3px;
+    display: inline-block;
+
+  }
+  &__rejectedBtn {
+    color: white;
+    background-color: red;
+    border-radius: 12px;
+    padding: 5px;
+    display: inline-block;
+  }
+  &__rejectedBtn {
+    color: white;
+    background-color: red;
+    border-radius: 12px;
+    padding: 5px;
+    display: inline-block;
+  }
+  &__acceptedBtn {
+    color: white;
+    background-color: green;
+    border-radius: 12px;
+    padding: 5px;
+    display: inline-block;
+
+  }
+  &__rejectedBtn:hover {
+    color: red;
+    border: 1px solid red;
+    background-color: white;
+    cursor: pointer;
+  }
+  &__acceptedBtn:hover {
+    color: green;
+    border: 1px solid green;
+background-color: white;
+cursor: pointer;
+  }
+  &__suspend {
+    background-color: sandybrown !important;
+  }
+  button{
+    border: none;
+  }
+  .nowrap{
+    white-space: nowrap;
+  }
 }
