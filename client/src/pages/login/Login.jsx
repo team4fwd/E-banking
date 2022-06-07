@@ -73,7 +73,7 @@ let SignInSide = (props) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userInfo, error } = useSelector((state) => state.user);
+  const { userInfo, message } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (userInfo) {
@@ -90,7 +90,9 @@ let SignInSide = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {error && <Alert variant='error' msg={error} />}
+      {message && (
+        <Alert variant={message.status} msg={message.msg} re={message.id} />
+      )}
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

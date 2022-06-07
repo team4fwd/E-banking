@@ -1,49 +1,53 @@
 import './new.scss';
-import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUserAccount } from '../../store/actions/userAccountsActions';
+import Alert from '../../components/Alert/Alert';
 
-const New = ({ inputs, title }) => {
-  const [file, setFile] = useState('');
+const New = () => {
+  const [amount, setAmount] = useState(0);
+  const [msg, setMsg] = useState('');
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.user.userInfo);
+  const { message } = useSelector((state) => state.accounts);
+
+  useEffect(() => {
+    setMsg(message);
+  }, [message]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setMsg(null);
+    if (amount >= 0) {
+      dispatch(addUserAccount(token));
+    }
+    if (amount < 0)
+      setMsg({
+        id: Date.now(),
+        status: 'error',
+        msg: 'Amount must be positive number!',
+      });
+  };
 
   return (
     <div className='new'>
+      {msg && <Alert variant={msg.status} msg={msg.msg} re={msg.id} />}
       <div className='top'>
-        <h1>{title}</h1>
+        <h1>Add New Account</h1>
       </div>
       <div className='bottom'>
-        <div className='left'>
-          <img
-            src={
-              file
-                ? URL.createObjectURL(file)
-                : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-            }
-            alt=''
-          />
-        </div>
         <div className='right'>
-          <form>
-            <div className='formInput formInput-file'>
-              <label htmlFor='file'>
-                Image: <DriveFolderUploadOutlinedIcon className='icon' />
-              </label>
+          <form onSubmit={submitHandler}>
+            <div className='formInput'>
+              <label>Amount</label>
               <input
-                type='file'
-                id='file'
-                onChange={(e) => setFile(e.target.files[0])}
-                style={{ display: 'none' }}
+                type='number'
+                placeholder='Add inital amount in the account'
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
-
-            {inputs &&
-              inputs.length > 0 &&
-              inputs.map((input) => (
-                <div className='formInput' key={input.id}>
-                  <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
-                </div>
-              ))}
-            <button>Send</button>
+            <button>ADD</button>
           </form>
         </div>
       </div>

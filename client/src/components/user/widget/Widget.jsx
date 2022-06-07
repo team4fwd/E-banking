@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getData } from '../../../util/widgetData';
 import './widget.scss';
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount }) => {
   const data = getData(type);
 
   return (
@@ -12,7 +12,7 @@ const Widget = ({ type }) => {
       <div className='widget__left'>
         <div className='widget__left-title'>{data.title}</div>
         <div className='widget__left-counter'>
-          {data.isMoney && '$'} {data.amount}
+          {data.isMoney && '$'} {amount || 0}
         </div>
         {data.link && (
           <Link to={data.href}>

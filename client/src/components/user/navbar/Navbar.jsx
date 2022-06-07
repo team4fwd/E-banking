@@ -24,7 +24,6 @@ const Navbar = ({ setDark }) => {
     if (e.currentTarget.textContent === 'My accounts') navigate('/accounts');
     if (e.currentTarget.textContent === 'Logout') dispatch(logoutUser());
   };
-  console.log(open);
 
   return (
     <div className='u-navbar'>

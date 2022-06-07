@@ -83,3 +83,18 @@ export const AddAccountAPI = async (token) => {
     return { error: err.message || 'Something went wrong!' };
   }
 };
+
+export const operateMoneyAPI = async (type, id, amount, token) => {
+  try {
+    const data = await fetchAPI(`account/${type}/${id}`, {
+      token,
+      body: { money: amount },
+      method: 'PUT',
+    });
+    if (data.status === false) throw new Error(data.message);
+    return { account: data.account };
+  } catch (err) {
+    console.log(err);
+    return { error: err.message || 'Something went wrong!' };
+  }
+};
