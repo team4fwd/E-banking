@@ -23,7 +23,7 @@
   }
   &__table {
     width: 100%;
-    height: 90%;
+    height: 100%;
   }
 
   &__user {
@@ -113,6 +113,7 @@ cursor: pointer;
   }
   button{
     border: none;
+    font-size: 13px;
   }
   .nowrap{
     white-space: nowrap;

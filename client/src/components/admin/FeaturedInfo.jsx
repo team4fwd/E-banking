@@ -1,33 +1,31 @@
 import React from 'react';
 import './FeaturedInfo.scss';
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
+import { MdPerson, MdPersonAddAlt1} from 'react-icons/md';
 
 const FeaturedInfo = () => {
   return (
     <div className='featured'>
       <div className='featured__item'>
-        <span className='featured__title'>Revanue</span>
+        <span className='featured__title'>TODAY NEW USERS</span>
         <div className='featured__money-container'>
-          <span className='featured__money'>EGP2.142</span>
+          <span className='featured__money'>20</span>
           <span className='featured__money-rate'>
-            -11.2
-            <MdArrowDownward className='featured__icon featured__icon-negative' />
+            <MdPersonAddAlt1 className='featured__icon featured__icon' />
           </span>
         </div>
-        <span className='featured__sub'>Compared to last month</span>
+        <span className='featured__sub'>3.154 Total Users</span>
       </div>
       <div className='featured__item'>
-        <span className='featured__title'>Sales</span>
+        <span className='featured__title'>TODAY CTIVE USERS</span>
         <div className='featured__money-container'>
-          <span className='featured__money'>EGP1.152</span>
+          <span className='featured__money'>230</span>
           <span className='featured__money-rate'>
-            -1.2
-            <MdArrowDownward className='featured__icon featured__icon-negative' />
+            <MdPerson className='featured__icon featured__icon-negative' />
           </span>
         </div>
-        <span className='featured__sub'>Compared to last month</span>
+        <span className='featured__sub'>20% of the total users</span>
       </div>
-      <div className='featured__item'>
+      {/* <div className='featured__item'>
         <span className='featured__title'>Cost</span>
         <div className='featured__money-container'>
           <span className='featured__money'>EGP2.352</span>
@@ -37,7 +35,7 @@ const FeaturedInfo = () => {
           </span>
         </div>
         <span className='featured__sub'>Compared to last month</span>
-      </div>
+      </div> */}
     </div>
   );
 };
