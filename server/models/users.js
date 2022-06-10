@@ -32,6 +32,10 @@ const userSchema = mongoose.Schema({
         type        : Boolean,
         default     : false
     },
+    isOpen : {
+        type        : Boolean,
+        default     : true
+    },
     hash : String,
     salt : String
 })
