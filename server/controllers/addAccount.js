@@ -52,6 +52,9 @@ const accountController = {
             return res.status(409).json({message : 'No Account exist'})
         }
         const checkBalance = await addAccount.findOne({_id:user_account_to})
+        if (!checkBalance) {
+            return res.status(409).json({message : 'The Account is not found'})
+        }
         if (!checkBalance.isActive) {
             return res.status(409).json({message : 'The Account is not Active'})
         }
@@ -82,6 +85,9 @@ const accountController = {
             return res.status(409).json({message : 'No Account exist'})
         }
         const checkBalance = await addAccount.findOne({_id:user_account_to})
+        if (!checkBalance) {
+            return res.status(409).json({message : 'The Account is not found'})
+        }
         if (!checkBalance.isActive) {
             return res.status(409).json({message : 'The Account is not Active'})
         }
