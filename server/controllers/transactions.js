@@ -27,6 +27,13 @@ const transactionController = {
         const user_to = await account.findOne({_id:user_account_to})
         const user_from = await account.findOne({_id:user_account_from})
 
+        if (!user_to) {
+            return res.status(409).json({message : 'The Account is not found'})
+        }
+        if (!user_from) {
+            return res.status(409).json({message : 'The Account is not found'})
+        }
+
         if (!user_to.isActive) {
             return res.status(409).json({message : 'Account is not Active'})
         }
