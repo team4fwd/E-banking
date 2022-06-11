@@ -44,7 +44,13 @@ const Sidebar = () => {
             <Link to='usersList' className='route-link'>
               <li className='sidebar__list-item'>
                 <MdPermIdentity className='sidebar__icon' />
-                UsersList
+                Users List
+              </li>
+            </Link>
+            <Link to='usersAcounts' className='route-link'>
+              <li className='sidebar__list-item'>
+                <MdPermIdentity className='sidebar__icon' />
+                Users acounts
               </li>
             </Link>
             {/* <Link to='products' className='route-link'>

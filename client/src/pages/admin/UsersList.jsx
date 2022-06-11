@@ -5,10 +5,13 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Switch from '@mui/material/Switch';
-import { MdOutlineWarningAmber, MdCheck, MdDeleteOutline } from 'react-icons/md';
+// import { MdOutlineWarningAmber, MdCheck, MdDeleteOutline } from 'react-icons/md';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Loadingpage from '../../util/loading/Loading'
+import { Button,Modal} from 'react-bootstrap';  
+import { GetAllUsersAPI, activationAPI, suspendAPI} from '../../util/API';
+
 
 import {
   DataGrid,
@@ -53,55 +56,57 @@ function UsersList() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const { token } = useSelector((state) => state.user.userInfo);
+  const [sameAddressSwitch, setSameAddressSwitch] = useState();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://e-commerce-fwd.herokuapp.com/users', {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
+   
+    GetAllUsersAPI(token)
+    .then((data) => {
         console.log(data);
         const users = data.map((user) => ({
           id: user._id,
-          username: `${user.firstName} ${user.lastName}`,
+          username: user.name,
           email: user.email,
+          phone: user.phone,
+          register: user
         }));
-        console.log(users);
         setData(users);
         setLoading(false);
 
       });
   }, [token]);
-  // const { data } = useDemoData({
-  //   dataSet: 'Employee',
-  //   visibleFields: VISIBLE_FIELDS,
-  //   rowLength: 100,
-  // });
-  const [sameAddressSwitch, setSameAddressSwitch] = useState();
+  
+
+  const handleactivate = (id) => {
+    // console.log(id)
+    activationAPI(id, token)
+   .then((data) => 
+   console.log(data)
+   
+   );}
+
+
+   function handlesuspend(id){
+   suspendAPI(id, token)
+   .then((data) => data);}
+
+
+
   const handleSwitchOnChange = () => {
     const newValue = !sameAddressSwitch;
     setSameAddressSwitch(newValue);
   };
 
-  const handleDeleteUser = (id) => {
-    setData((currusers) => currusers.filter((user) => user.id !== id));
-  };
+
 
   const columns = [
     {
-      field: 'user',
-      headerName: 'User',
+      field: 'username',
+      headerName: 'Name',
       width: 200,
-      renderCell: (params) => (
-        <div className='usersList__user'>
-          {/* <img src={params.row.avatar} alt='' className='usersList__user-img' /> */}
-          {params.row.username}
-        </div>
-      ),
+  
     },
 
     { field: 'email', headerName: 'Email', width: 200 },
@@ -112,7 +117,7 @@ function UsersList() {
       headerName: 'Verifying user',
       width: 150,
       renderCell: (params) => {
-        return (<button className='usersList__acceptedBtn'>accepted</button>)
+        return (<button className='usersList__acceptedBtn' onClick={() =>handleactivate(params.id)}>activate</button>)
         // if(params === "aprovel"){
         //   return (
         //    <div className='nowrap'>
@@ -149,6 +154,51 @@ function UsersList() {
       width: 150,
       renderCell: (params) => {
         return (<button className='usersList__rejectedBtn'>suspend</button>)
+        //     if(value === "activate"){
+        // return (
+        //  <div>
+        //     <button className='usersList__rejectedBtn'>suspend</button></div>)
+        //   }else{
+        //     return (
+        //   <div>
+        //  <button className='usersList__acceptedBtn'>activate</button>
+
+        //   </div>
+
+
+        //  )}
+      },
+    },
+    {
+      field: 'aproveRequest',
+      headerName: 'Aprove request',
+      width: 150,
+      renderCell: (params) => {
+
+        const handleShow = () => setShow(params);
+        return (
+          <div
+          className="d-flex align-items-center justify-content-center"
+          style={{ height: "100vh" }}
+        >         
+         <Button variant="primary" onClick={handleShow}>
+          Launch Form modal
+        </Button>
+      <Modal show={show}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login Form</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <></>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" >Close Modal</Button>
+        </Modal.Footer>
+      </Modal>
+        </div>  
+
+
+        )
         //     if(value === "activate"){
         // return (
         //  <div>

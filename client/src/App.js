@@ -7,6 +7,8 @@ import {
 import Admin from './pages/admin/Admin';
 import AdminHome from './pages/admin/AdminHome';
 import UsersList from './pages/admin/UsersList';
+import UsersAcounts from './pages/admin/UsersAcounts';
+
 import User from './pages/admin/User';
 import Layout from './components/user/layout/Layout';
 import Home from './pages/home/Home';
@@ -60,6 +62,7 @@ const App = () => {
               <Route path='home' element={<AdminHome />} />
               <Route path='user' element={<User />} />
               <Route path='usersList' element={<UsersList />} />
+              <Route path='usersAcounts' element={<UsersAcounts />} />
             </Route>
           )}
         </Routes>
