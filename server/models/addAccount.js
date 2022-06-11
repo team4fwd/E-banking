@@ -8,13 +8,16 @@ const addAccountSchema = mongoose.Schema({
     },
     amount     : {
         type        : Number,
-        trim        : true,
-        default     : 0
+        trim        : true
     },
     isActive     :{
         type        : Boolean,
         default     : false
     },
+    pending     : {
+        type        : Boolean,
+        default     : true
+    }
 })
 
 const account = mongoose.model("account",addAccountSchema)

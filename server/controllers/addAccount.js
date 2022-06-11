@@ -6,7 +6,12 @@ const {transaction} = require('../models/transactions')
 const accountController = {
     addAccount : async (req,res)=>{
         const user_id = req.userId
-        const addaccount = new addAccount({user_id:user_id})
+        const amount = req.body.money
+        if (amount < 0) {
+            return res.status(409).json({message : 'The Money must be positive'})
+        }
+        const addaccount = new addAccount({user_id:user_id,amount:amount})
+        
         try{
             await addaccount.save()
             res.json({
@@ -34,7 +39,7 @@ const accountController = {
             return res.status(409).json({message : 'No Account exist'})
         }
         try{
-            const activeAccount = await addAccount.findByIdAndUpdate({_id:account_id},{isActive:true},{new:true})
+            const activeAccount = await addAccount.findByIdAndUpdate({_id:account_id},{isActive:true,pending:false},{new:true})
             res.status(200).json({account : activeAccount,status:true,message:"Account is Activated"})
         }
         catch(error){
@@ -42,7 +47,21 @@ const accountController = {
               res.json({status:false,message:"Account Not Activated"})
             }
         }
-
+    },
+    rejectAccount : async (req,res)=>{
+        const account_id = req.params.id
+        if (!mongoose.Types.ObjectId.isValid(account_id)) {
+            return res.status(409).json({message : 'No Account exist'})
+        }
+        try{
+            const activeAccount = await addAccount.findByIdAndUpdate({_id:account_id},{isActive:false},{new:true})
+            res.status(200).json({account : activeAccount,status:true,message:"Account is closed"})
+        }
+        catch(error){
+            if(error){
+              res.json({status:false,message:"Account Not closed"})
+            }
+        }
     },
     accountWithdraw : async (req,res)=>{
         const user_account_to = req.params.id
