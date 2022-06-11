@@ -1,8 +1,10 @@
 import {
   ADD_ACCOUNT,
+  CLEAR,
   DEPOSIT_INTO_ACCOUNT,
   FAILED,
   GET_USER_ACCOUNTS,
+  TRANSFER_TO_ACCOUNT,
   WITHDRAW_FROM_ACCOUNT,
 } from '../actions/userAccountsActions';
 
@@ -52,11 +54,52 @@ const accountsReducer = (state = initialState, action) => {
           msg: 'Amount added successfully!',
         },
       };
+    case TRANSFER_TO_ACCOUNT:
+      const accountFrom = {
+        ...state.accounts.filter(
+          (acc) => acc._id === action.payload.user_account_from
+        )[0],
+      };
+      const accountTo = {
+        ...state.accounts.filter(
+          (acc) => acc._id === action.payload.user_account_to
+        )[0],
+      };
+      let newAccounts = [...state.accounts];
+      if (accountFrom.amount) {
+        accountFrom.amount -= action.payload.amount;
+        newAccounts = [
+          ...newAccounts.filter(
+            (acc) => acc._id !== action.payload.user_account_from
+          ),
+          accountFrom,
+        ];
+      }
+      if (accountTo.amount) {
+        accountTo.amount += action.payload.amount;
+        newAccounts = [
+          ...newAccounts.filter(
+            (acc) => acc._id !== action.payload.user_account_to
+          ),
+          accountTo,
+        ];
+      }
+      return {
+        ...state,
+        accounts: newAccounts,
+        message: {
+          id: Date.now(),
+          status: 'info',
+          msg: 'Transfered successfully!',
+        },
+      };
     case FAILED:
       return {
         ...state,
         message: { id: Date.now(), status: 'error', msg: action.msg },
       };
+    case CLEAR:
+      return {};
     default:
       return state;
   }

@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import Alert from '../../components/Alert/Alert';
+import { useParams } from 'react-router-dom';
 import Operation from '../../components/user/actions/Opertaion';
 import Chart from '../../components/user/chart/Chart';
 import TableList from '../../components/user/table/Table';
