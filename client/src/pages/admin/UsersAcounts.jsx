@@ -9,8 +9,6 @@ import Loadingpage from '../../util/loading/Loading'
 import { GetAllAcounts, AccountActivationAPI, AccountrejectAPI } from '../../util/API';
 import Switch from '@material-ui/core/Switch';
 import { useN01SwitchStyles } from '@mui-treasury/styles/switch/n01';
-
-
 import {
   DataGrid,
   GridToolbarContainer,
@@ -78,7 +76,7 @@ function UsersAcounts() {
   }, [token]);
 
 
-//account activation function
+  //account activation function
   const handleApprove = (id) => {
     console.log(id)
     AccountActivationAPI(id, token)
@@ -107,7 +105,7 @@ function UsersAcounts() {
             setsuccess("");
           }, 600)
         }
-  });
+      });
   }
 
 
@@ -163,7 +161,7 @@ function UsersAcounts() {
               onChange={e => e.target.checked}
             />
           </div>
-          )
+        )
 
       },
     },
@@ -187,7 +185,7 @@ function UsersAcounts() {
               </div>
             ) : (
               ''
-              )}
+            )}
             {success ? (
               <div className='alert alert-success' role='alert'>
                 {success}
@@ -211,7 +209,7 @@ function UsersAcounts() {
                   fontSize: '1.6rem',
                 },
               }
-            }
+              }
               rows={data}
               disableSelectionOnClick
               columns={columns}
@@ -232,7 +230,9 @@ function UsersAcounts() {
                 },
               }}
             />
-          </div> </>)}
+          </div>
+        </>
+      )}
     </div>
 
   );

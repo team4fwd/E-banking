@@ -3,11 +3,11 @@ import './UsersList.scss';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { MdOutlineWarningAmber, MdCheck} from 'react-icons/md';
+import { MdOutlineWarningAmber, MdCheck } from 'react-icons/md';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Loadingpage from '../../util/loading/Loading'
-import { GetAllUsersAPI, activationAPI, suspendAPI} from '../../util/API';
+import { GetAllUsersAPI, activationAPI, suspendAPI } from '../../util/API';
 
 import {
   DataGrid,
@@ -58,9 +58,9 @@ function UsersList() {
 
   useEffect(() => {
     setLoading(true);
-   
+
     GetAllUsersAPI(token)
-    .then((data) => {
+      .then((data) => {
         console.log(data);
         const users = data.map((user) => ({
           id: user._id,
@@ -68,64 +68,25 @@ function UsersList() {
           email: user.email,
           phone: user.phone,
           register: user.isActive,
-          suspend:user.isOpen
+          suspend: user.isOpen
         }));
         setData(users);
         setLoading(false);
 
       });
   }, [token]);
-  
-//user activation to can he login 
+
+  //user activation to can he login 
   const handleactivate = (id) => {
     activationAPI(id, token)
-   .then((data) =>  {
-          if (data.status === false) {
-            setLoading(false);
-            setError(data.message);
-          } else {
-            setLoading(false);
-            setsuccess(data.message);
+      .then((data) => {
+        if (data.status === false) {
+          setLoading(false);
+          setError(data.message);
+        } else {
+          setLoading(false);
+          setsuccess(data.message);
 
-            GetAllUsersAPI(token).then((data) => {
-              console.log(data);
-              const users = data.map((user) => ({
-                id: user._id,
-                username: user.name,
-                email: user.email,
-                phone: user.phone,
-                register: user.isActive,
-                suspend:user.isOpen
-              }));
-              setData(users);
-              setLoading(false);
-            })
-
-            setTimeout(() => {
-              setsuccess("");
-          },600)
-          }         
-        }   
-   );
-  }
-
-// suspend the user to cann't login
-   function handlesuspend(id){
-   suspendAPI(id, token)
-   .then((data) =>  {
-          if (data.status === false) {
-            setLoading(false);
-            setError(data.message);
-          } else {
-            setLoading(false);
-            setsuccess(data.message);
-
-            setTimeout(() => {
-              setsuccess("");
-              
-          },600)
-          
-          }
           GetAllUsersAPI(token).then((data) => {
             console.log(data);
             const users = data.map((user) => ({
@@ -134,14 +95,53 @@ function UsersList() {
               email: user.email,
               phone: user.phone,
               register: user.isActive,
-              suspend:user.isOpen
+              suspend: user.isOpen
             }));
             setData(users);
             setLoading(false);
-    
-          }) 
-        }   
-   );
+          })
+
+          setTimeout(() => {
+            setsuccess("");
+          }, 600)
+        }
+      }
+      );
+  }
+
+  // suspend the user to cann't login
+  function handlesuspend(id) {
+    suspendAPI(id, token)
+      .then((data) => {
+        if (data.status === false) {
+          setLoading(false);
+          setError(data.message);
+        } else {
+          setLoading(false);
+          setsuccess(data.message);
+
+          setTimeout(() => {
+            setsuccess("");
+
+          }, 600)
+
+        }
+        GetAllUsersAPI(token).then((data) => {
+          console.log(data);
+          const users = data.map((user) => ({
+            id: user._id,
+            username: user.name,
+            email: user.email,
+            phone: user.phone,
+            register: user.isActive,
+            suspend: user.isOpen
+          }));
+          setData(users);
+          setLoading(false);
+
+        })
+      }
+      );
   }
 
 
@@ -158,14 +158,15 @@ function UsersList() {
       headerName: 'Verifying user',
       width: 150,
       renderCell: (params) => {
-        if(params.value === false){
+        if (params.value === false) {
           return (
             <button className='usersList__acceptedBtn' onClick={() => handleactivate(params.id)}>activate</button>
-            )
-            }else{
-              return (
-            <div className={"usersList__accepted nowrap"}><p><MdCheck/> activated</p>
-            </div>)}
+          )
+        } else {
+          return (
+            <div className={"usersList__accepted nowrap"}><p><MdCheck /> activated</p>
+            </div>)
+        }
       },
     },
 
@@ -174,31 +175,32 @@ function UsersList() {
       headerName: 'suspend',
       width: 150,
       renderCell: (params) => {
-        if(params.value === true){
+        if (params.value === true) {
           return (
             <button className='usersList__rejectedBtn' onClick={() => handlesuspend(params.id)}>suspend</button>
-            )
-            }else{
-              return (
-            <div className={"usersList__rejected nowrap"}><p><MdOutlineWarningAmber/> suspended</p>
-            </div>)}
+          )
+        } else {
+          return (
+            <div className={"usersList__rejected nowrap"}><p><MdOutlineWarningAmber /> suspended</p>
+            </div>)
+        }
       },
     },
   ];
 
 
   return (
-   
+
     <div className='usersList'>
-       {loading ? (
-      <Loadingpage />
-    ) : (
-       <>
-      <div className='usersList__titleContainer'>
-        <h3 className='usersList__title'>Users List</h3>
-      </div>
-      <div className='usersList__table'>
-      {error ? (
+      {loading ? (
+        <Loadingpage />
+      ) : (
+        <>
+          <div className='usersList__titleContainer'>
+            <h3 className='usersList__title'>Users List</h3>
+          </div>
+          <div className='usersList__table'>
+            {error ? (
               <div className='alert alert-danger' role='alert'>
                 {error}
               </div>
@@ -213,39 +215,39 @@ function UsersList() {
               ''
             )}
 
-        <DataGrid
-          sx={{
-            fontSize: 15,
-            boxShadow: 2,
-            border: 2,
-            borderColor: 'primary.light',
-            '& .MuiDataGrid-cell:hover': {
-              color: 'primary.main',
-            },
-          }}
-          rows={data}
-          disableSelectionOnClick
-          columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          components={{
-            Toolbar: CustomToolbar,
-            Pagination: CustomPagination,
+            <DataGrid
+              sx={{
+                fontSize: 15,
+                boxShadow: 2,
+                border: 2,
+                borderColor: 'primary.light',
+                '& .MuiDataGrid-cell:hover': {
+                  color: 'primary.main',
+                },
+              }}
+              rows={data}
+              disableSelectionOnClick
+              columns={columns}
+              pageSize={8}
+              rowsPerPageOptions={[5]}
+              checkboxSelection
+              components={{
+                Toolbar: CustomToolbar,
+                Pagination: CustomPagination,
 
-          }}
-          componentsProps={{
-            panel: {
-              anchorEl: filterButtonEl,
-            },
-            toolbar: {
-              setFilterButtonEl,
-            },
-          }}
-        />
-      </div> </>)}
+              }}
+              componentsProps={{
+                panel: {
+                  anchorEl: filterButtonEl,
+                },
+                toolbar: {
+                  setFilterButtonEl,
+                },
+              }}
+            />
+          </div> </>)}
     </div>
-   
+
   );
 }
 export default UsersList;

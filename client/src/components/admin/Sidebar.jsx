@@ -39,22 +39,22 @@ const Sidebar = () => {
             <Link to='usersList' className='route-link'>
               <li className='sidebar__list-item'>
                 <MdPermIdentity className='sidebar__icon' />
-                <span>Users List</span>
+                Users List
               </li>
             </Link>
             <Link to='usersAcounts' className='route-link'>
               <li className='sidebar__list-item'>
                 <MdAccountCircle className='sidebar__icon' />
-                <span>Users acounts</span>
+                Users acounts
               </li>
             </Link>
 
-          <Link to='/login' className='route-link'>
-              <li className='sidebar__list-item' onClick={logoutHandler}>
-              <MdOutlineLogout className='sidebar__icon' />
+            <li onClick={logoutHandler}>
+            <MdOutlineLogout className='u-sidebar__icon' />
             <span>Logout</span>
-              </li>
-            </Link>
+          </li>
+             
+         
         
           </ul>
         </div>

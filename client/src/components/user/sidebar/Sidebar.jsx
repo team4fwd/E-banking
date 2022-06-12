@@ -15,7 +15,7 @@ const Sidebar = ({ setDark }) => {
     e.preventDefault();
     dispatch(logoutUser());
   };
-  
+
   return (
     <div className='u-sidebar'>
       <div className='u-sidebar__top'>
@@ -51,10 +51,10 @@ const Sidebar = ({ setDark }) => {
             <AccountCircleOutlinedIcon className='u-sidebar__icon' />
             <span>Profile</span>
           </li>
-          <li onClick={logoutHandler}>
+          {/* <li onClick={logoutHandler}>
             <ExitToAppIcon className='u-sidebar__icon' />
             <span>Logout</span>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className='u-sidebar__bottom'>
