@@ -60,10 +60,10 @@ const getUserAccounts = (token) => async (dispatch) => {
   }
 };
 
-const addUserAccount = (token) => async (dispatch) => {
+const addUserAccount = (amount, token) => async (dispatch) => {
   try {
     dispatch(showLoading());
-    const { account, error } = await AddAccountAPI(token);
+    const { account, error } = await AddAccountAPI(amount, token);
     dispatch(hideLoading());
     if (error) throw new Error(error);
     dispatch(addNewAccount(account));

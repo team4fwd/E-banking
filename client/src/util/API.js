@@ -71,11 +71,12 @@ export const MyAccountsAPI = async (token) => {
   }
 };
 
-export const AddAccountAPI = async (token) => {
+export const AddAccountAPI = async (amount, token) => {
   try {
     const data = await fetchAPI('account/addaccount', {
       method: 'POST',
       token,
+      body: { money: amount },
     });
     if (data.status === false) throw new Error(data.message);
     return { account: data.account };
@@ -112,6 +113,17 @@ export const transferMoneyAPI = async (to, from, amount, token) => {
     });
     if (data.status === false) throw new Error(data.message);
     return { transferObj: data.transfer };
+  } catch (err) {
+    return { error: err.message || 'Something went wrong!' };
+  }
+};
+
+export const MyTransactionsAPI = async (token) => {
+  try {
+    const transactions = await fetchAPI('transformations/usertransformations', {
+      token,
+    });
+    return { transactions };
   } catch (err) {
     return { error: err.message || 'Something went wrong!' };
   }

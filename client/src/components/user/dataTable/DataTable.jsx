@@ -1,28 +1,44 @@
 import './dataTable.scss';
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { userColumns } from '../../../util/tableData';
 import { useSelector } from 'react-redux';
+import Alert from '../../Alert/Alert';
 
 const DataTable = () => {
+  const navigate = useNavigate();
+  const [msg, setMsg] = useState('');
   const [data, setData] = useState([]);
-  const { accounts } = useSelector((state) => state.accounts);
+  const { accounts, message } = useSelector((state) => state.accounts);
 
   useEffect(() => {
     setData(
       accounts &&
         accounts.map((account) => ({
           id: account._id,
-          status: account.isActive ? 'active' : 'pending',
+          status: account.pending
+            ? 'pending'
+            : account.isActive
+            ? 'active'
+            : 'rejected',
           balance: account.amount,
         }))
     );
-  }, [accounts]);
+    setMsg(message);
+  }, [accounts, message]);
 
-  // const handleDelete = (id) => {
-  //   setData(data.filter((item) => item.id !== id));
-  // };
+  const handleClick = (status, id) => {
+    if (status === 'active') {
+      navigate(`/accounts/${id}`);
+    } else {
+      setMsg({
+        id: Date.now(),
+        status: 'error',
+        msg: `You can't access ${status} account`,
+      });
+    }
+  };
 
   const actionColumn = [
     {
@@ -32,12 +48,17 @@ const DataTable = () => {
       renderCell: (params) => {
         return (
           <div className='cellAction'>
-            <Link
+            {/* <Link
               to={`/accounts/${params.row.id}`}
               style={{ textDecoration: 'none' }}
+            > */}
+            <div
+              className='viewButton'
+              onClick={(e) => handleClick(params.row.status, params.row.id)}
             >
-              <div className='viewButton'>View Details</div>
-            </Link>
+              View Details
+            </div>
+            {/* </Link> */}
           </div>
         );
       },
@@ -51,6 +72,7 @@ const DataTable = () => {
           Add New
         </Link>
       </div>
+      {msg && <Alert variant={msg.status} msg={msg.msg} re={msg.id} />}
       <DataGrid
         className='datagrid'
         rows={data}

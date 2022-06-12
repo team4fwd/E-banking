@@ -4,6 +4,11 @@
   min-height: 100vh;
   background-color: #fff;
 
+  @media only screen and (max-width: 800px) {
+    flex: 0;
+    width: 6rem;
+  }
+
   &__top {
     height: 5rem;
     display: flex;
@@ -11,20 +16,42 @@
     justify-content: center;
     border-bottom: 0.05rem solid rgb(230, 227, 227);
 
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
     &__logo {
       font-size: 2rem;
       font-weight: bold;
       color: #6439ff;
+
+      @media only screen and (max-width: 800px) {
+        display: none;
+      }
+
+      &Icon {
+        color: #6439ff;
+        font-size: 2rem !important;
+      }
     }
   }
 
-  // hr {
-  //   height: 0;
-  //   border: 0.05rem solid rgb(230, 227, 227);
-  // }
-
   &__center {
     padding-left: 10px;
+    @media only screen and (max-width: 800px) {
+      padding: 0 1rem;
+    }
+
+    ul {
+      @media only screen and (max-width: 800px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
 
     &-title {
       font-size: 1.2rem;
@@ -45,6 +72,10 @@
         font-size: 1.6rem;
         font-weight: 600;
         color: #888;
+
+        @media only screen and (max-width: 800px) {
+          display: none;
+        }
       }
       &:hover {
         background-color: #ece8ff;
@@ -56,6 +87,11 @@
     display: flex;
     align-items: center;
     margin: 1rem;
+
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      padding: 0 1rem;
+    }
 
     .color-option {
       width: 2rem;

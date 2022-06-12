@@ -14,7 +14,7 @@ const Layout = ({ setDark }) => {
     if (userInfo.isActive) {
       dispatch(getUserAccounts(userInfo.token));
     }
-  }, []);
+  }, [dispatch, userInfo]);
 
   return (
     <div className='layout'>

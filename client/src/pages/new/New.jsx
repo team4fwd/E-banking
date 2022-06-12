@@ -19,7 +19,7 @@ const New = () => {
     e.preventDefault();
     setMsg(null);
     if (amount >= 0) {
-      dispatch(addUserAccount(token));
+      dispatch(addUserAccount(amount, token));
     }
     if (amount < 0)
       setMsg({

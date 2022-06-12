@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Operation from '../../components/user/actions/Opertaion';
 import Chart from '../../components/user/chart/Chart';
 import TableList from '../../components/user/table/Table';
@@ -8,35 +9,40 @@ import './account.scss';
 
 const Account = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.user.userInfo);
   const account = useSelector(
     (state) => state.accounts.accounts.filter((acc) => acc._id === id)[0]
   );
 
+  useEffect(() => {
+    if (!account?.isActive) {
+      navigate(`/accounts`);
+    }
+  }, [account, navigate]);
+
   return (
     <div className='account'>
-      {account?.isActive && (
-        <div className='operations'>
-          <Operation
-            type='recharge'
-            id={id}
-            token={token}
-            currentAmount={account?.amount || 0}
-          />
-          <Operation
-            type='withdrow'
-            id={id}
-            token={token}
-            currentAmount={account?.amount || 0}
-          />
-          <Operation
-            type='transfer'
-            id={id}
-            token={token}
-            currentAmount={account?.amount || 0}
-          />
-        </div>
-      )}
+      <div className='operations'>
+        <Operation
+          type='recharge'
+          id={id}
+          token={token}
+          currentAmount={account?.amount || 0}
+        />
+        <Operation
+          type='withdrow'
+          id={id}
+          token={token}
+          currentAmount={account?.amount || 0}
+        />
+        <Operation
+          type='transfer'
+          id={id}
+          token={token}
+          currentAmount={account?.amount || 0}
+        />
+      </div>
       <div className='widgets'>
         <Widget type='balance' amount={account?.amount || 0} />
         <Widget type='income' />

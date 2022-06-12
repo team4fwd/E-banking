@@ -1,10 +1,10 @@
-import TableList from '../../components/user/table/Table';
+import TransactionLog from '../../components/user/table/Transactions';
 import './transactions.scss';
 
 const Transactions = () => {
   return (
     <div className='transactions'>
-      <TableList />
+      <TransactionLog />
     </div>
   );
 };
