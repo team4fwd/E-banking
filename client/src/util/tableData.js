@@ -37,7 +37,7 @@ export const rows = [
 ];
 
 export const userColumns = [
-  { field: 'id', headerName: 'Account Number', width: 200 },
+  { field: 'id', headerName: 'Account Number', width: 300 },
   {
     field: 'balance',
     headerName: 'Balance',
@@ -54,59 +54,5 @@ export const userColumns = [
         </div>
       );
     },
-  },
-];
-
-//temporary data
-export const userRows = [
-  {
-    id: 1,
-    status: 'active',
-    balance: '100030409',
-  },
-  {
-    id: 2,
-    balance: '100030409',
-    status: 'rejected',
-  },
-  {
-    id: 3,
-    balance: '100030409',
-    status: 'pending',
-  },
-  {
-    id: 4,
-    balance: '100030409',
-    status: 'active',
-  },
-  {
-    id: 5,
-    balance: '100030409',
-    status: 'rejected',
-  },
-  {
-    id: 6,
-    balance: '100030409',
-    status: 'active',
-  },
-  {
-    id: 7,
-    balance: '100030409',
-    status: 'rejected',
-  },
-  {
-    id: 8,
-    balance: '100030409',
-    status: 'active',
-  },
-  {
-    id: 9,
-    balance: '100030409',
-    status: 'pending',
-  },
-  {
-    id: 10,
-    balance: '100030409',
-    status: 'active',
   },
 ];

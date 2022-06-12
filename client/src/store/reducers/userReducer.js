@@ -11,11 +11,15 @@ const userReducer = (state = {}, action) => {
     case LOGIN:
       return { userInfo: action.user };
     case LOGIN_FAIL:
-      return { error: action.errMsg };
+      return {
+        message: { id: Date.now(), status: 'error', msg: action.errMsg },
+      };
     case REGISTER:
-      return { message: action.msg };
+      return { message: { id: Date.now(), status: 'info', msg: action.msg } };
     case REGISTER_FAIL:
-      return { error: action.errMsg };
+      return {
+        message: { id: Date.now(), status: 'error', msg: action.errMsg },
+      };
     case LOGOUT:
       return {};
     default:

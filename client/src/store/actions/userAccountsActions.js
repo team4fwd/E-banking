@@ -1,5 +1,5 @@
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
-import { AddAccountAPI, MyAccountsAPI } from '../../util/API';
+import { AddAccountAPI, MyAccountsAPI, operateMoneyAPI } from '../../util/API';
 
 const ADD_ACCOUNT = 'ADD_ACCOUNT';
 const GET_USER_ACCOUNTS = 'GET_USER_ACCOUNTS';
@@ -16,6 +16,16 @@ const addNewAccount = (account) => ({
 const getAllAccounts = (accounts) => ({
   type: GET_USER_ACCOUNTS,
   accounts,
+});
+
+const withdraw = (account) => ({
+  type: WITHDRAW_FROM_ACCOUNT,
+  account,
+});
+
+const deposit = (account) => ({
+  type: DEPOSIT_INTO_ACCOUNT,
+  account,
 });
 
 const accountFailed = (msg) => ({
@@ -47,6 +57,19 @@ const addUserAccount = (token) => async (dispatch) => {
   }
 };
 
+const operateMoney = (type, id, amount, token) => async (dispatch) => {
+  try {
+    dispatch(showLoading());
+    const { account, error } = await operateMoneyAPI(type, id, amount, token);
+    dispatch(hideLoading());
+    if (error) throw new Error(error);
+    if (type === 'withdrow') dispatch(withdraw(account));
+    if (type === 'recharge') dispatch(deposit(account));
+  } catch (err) {
+    dispatch(accountFailed(err.message));
+  }
+};
+
 export {
   ADD_ACCOUNT,
   GET_USER_ACCOUNTS,
@@ -56,4 +79,5 @@ export {
   FAILED,
   getUserAccounts,
   addUserAccount,
+  operateMoney,
 };

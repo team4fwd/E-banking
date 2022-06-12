@@ -1,28 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { operateMoney } from '../../../store/actions/userAccountsActions';
+import Alert from '../../Alert/Alert';
 import './operation.scss';
 
-const Operation = ({ type }) => {
-  const [amount, setAmount] = useState('');
+const Operation = ({ type, token, id, currentAmount }) => {
+  const [msg, setMsg] = useState(null);
+  const [amount, setAmount] = useState(0);
   const [to, setTo] = useState('');
+  const dispatch = useDispatch();
+  const { message } = useSelector((state) => state.accounts);
+
+  useEffect(() => {
+    setMsg(message);
+  }, [message]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setMsg(null);
+    if (amount < 0) {
+      setMsg({
+        id: Date.now(),
+        status: 'error',
+        msg: 'Amount must be positive!',
+      });
+      setAmount(0);
+      return;
+    }
     switch (type) {
       case 'transfer':
-        // call api and pass amount, account ...
+        // call api and transfer amount
         break;
       case 'recharge':
-        // call api and add amount to account
+        dispatch(operateMoney(type, id, amount, token));
+        setAmount(0);
+        // setMsg(message);
         break;
-      case 'withdraw':
-        // call api and withdraw amount
+      case 'withdrow':
+        if (amount > currentAmount) {
+          setMsg({
+            id: Date.now(),
+            status: 'error',
+            msg: `you can't withdraw more than ${currentAmount}`,
+          });
+          return;
+        }
+        dispatch(operateMoney(type, id, amount, token));
+        setAmount(0);
+        // setMsg(message);
         break;
       default:
         break;
     }
   };
+
   return (
     <div className={`operation operation--${type}`}>
+      {msg && <Alert variant={msg.status} msg={msg.msg} re={msg.id} />}
       <h2>{type[0].toUpperCase() + type.substring(1)} money</h2>
       <form className={`form form--${type}`} onSubmit={submitHandler}>
         {type === 'transfer' && (

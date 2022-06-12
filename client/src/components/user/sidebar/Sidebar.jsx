@@ -15,7 +15,7 @@ const Sidebar = ({ setDark }) => {
     e.preventDefault();
     dispatch(logoutUser());
   };
-
+  
   return (
     <div className='u-sidebar'>
       <div className='u-sidebar__top'>

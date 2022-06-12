@@ -98,7 +98,7 @@ export const GetAllUsersAPI = (token) =>
 
     export const activationAPI = (id, token) =>
    
-   fetch(`https://banksystem-fwd.herokuapp.com/users/activate/:${id}`, {
+   fetch(`https://banksystem-fwd.herokuapp.com/users/activate/${id}`, {
      method: 'PUT',
      headers: {
        'Content-Type': 'application/json',
@@ -106,11 +106,13 @@ export const GetAllUsersAPI = (token) =>
      },
      body: JSON.stringify({"isActive": true}),
    }).then((res) => res.json())
+
+   
   
    
 
    export const suspendAPI = (id, token) =>
-   fetch(`https://banksystem-fwd.herokuapp.com/users/suspend/:${id}`, {
+   fetch(`https://banksystem-fwd.herokuapp.com/users/suspend/${id}`, {
      method: 'PUT',
      headers: {
        'Content-Type': 'application/json',
@@ -131,7 +133,7 @@ export const GetAllUsersAPI = (token) =>
   
 
       export const AccountActivationAPI = (id, token) =>
-        fetch(`https://banksystem-fwd.herokuapp.com/users/suspend/:${id}`, {
+        fetch(`https://banksystem-fwd.herokuapp.com/account/activate/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -139,3 +141,33 @@ export const GetAllUsersAPI = (token) =>
           },
           body: null,
         }).then((res) => res.json())
+
+
+        export const AccountrejectAPI = (id, token) =>
+        fetch(`https://banksystem-fwd.herokuapp.com/account/reject/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token,
+          },
+          body: null,
+        }).then((res) => res.json())
+
+
+
+
+
+export const operateMoneyAPI = async (type, id, amount, token) => {
+  try {
+    const data = await fetchAPI(`account/${type}/${id}`, {
+      token,
+      body: { money: amount },
+      method: 'PUT',
+    });
+    if (data.status === false) throw new Error(data.message);
+    return { account: data.account };
+  } catch (err) {
+    console.log(err);
+    return { error: err.message || 'Something went wrong!' };
+  }
+};

@@ -3,20 +3,20 @@ import './Sidebar.scss';
 import {
   MdLineStyle,
   MdPermIdentity,
-  MdStorefront,
-  MdAttachMoney,
-  MdDynamicFeed,
-  // MdTrendingUp,
-  // MdBarChart,
-  // MdMailOutline,
-  // MdChatBubbleOutline,
-  // MdWorkOutline,
-  // MdTimeline,
-  // MdReport,
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { logoutUser } from '../../store/actions/userActions';
+import { useDispatch } from 'react-redux';
+import {MdAccountCircle, MdOutlineLogout} from 'react-icons/md';
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser());
+    
+  };
   return (
     <div className='sidebar'>
       <div className='sidebar__wrapper'>
@@ -35,31 +35,27 @@ const Sidebar = () => {
         <div className='sidebar__menu'>
           <h3 className='sidebar__title'>Quick Menu</h3>
           <ul className='sidebar__list'>
-            {/* <Link to='user' className='route-link'>
-              <li className='sidebar__list-item'>
-                <MdPermIdentity className='sidebar__icon' />
-                Users
-              </li>
-            </Link> */}
+        
             <Link to='usersList' className='route-link'>
               <li className='sidebar__list-item'>
                 <MdPermIdentity className='sidebar__icon' />
-                Users List
+                <span>Users List</span>
               </li>
             </Link>
             <Link to='usersAcounts' className='route-link'>
               <li className='sidebar__list-item'>
-                <MdPermIdentity className='sidebar__icon' />
-                Users acounts
+                <MdAccountCircle className='sidebar__icon' />
+                <span>Users acounts</span>
               </li>
             </Link>
-            {/* <Link to='products' className='route-link'>
-              <li className='sidebar__list-item'>
-                <MdStorefront className='sidebar__icon' />
-                requests
+
+          <Link to='/login' className='route-link'>
+              <li className='sidebar__list-item' onClick={logoutHandler}>
+              <MdOutlineLogout className='sidebar__icon' />
+            <span>Logout</span>
               </li>
-            </Link> */}
-       
+            </Link>
+        
           </ul>
         </div>
       </div>

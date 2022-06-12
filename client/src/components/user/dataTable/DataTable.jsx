@@ -1,15 +1,27 @@
 import './dataTable.scss';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { userColumns, userRows } from '../../../util/tableData';
+import { useEffect, useState } from 'react';
+import { userColumns } from '../../../util/tableData';
+import { useSelector } from 'react-redux';
 
 const DataTable = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
+  const { accounts } = useSelector((state) => state.accounts);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  useEffect(() => {
+    setData(
+      accounts.map((account) => ({
+        id: account._id,
+        status: account.isActive ? 'active' : 'pending',
+        balance: account.amount,
+      }))
+    );
+  }, [accounts]);
+
+  // const handleDelete = (id) => {
+  //   setData(data.filter((item) => item.id !== id));
+  // };
 
   const actionColumn = [
     {

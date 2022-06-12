@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import styles from './Alert.module.scss';
 import AlertMUI from '@mui/material/Alert';
 
-const Alert = ({ variant, msg, time = 3 }) => {
+const Alert = ({ variant, msg, time = 3, re }) => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -15,7 +14,7 @@ const Alert = ({ variant, msg, time = 3 }) => {
       setShow(true);
       clearTimeout(timer);
     };
-  }, [time, msg]);
+  }, [time, msg, re]);
 
   return (
     <>
@@ -27,6 +26,9 @@ const Alert = ({ variant, msg, time = 3 }) => {
             left: '50%',
             transform: 'translateX(-50%)',
             fontSize: '1.6rem',
+            minWidth: '40%',
+            justifyContent: 'center',
+            marginTop: '1rem',
           }}
           severity={`${variant}`}
         >

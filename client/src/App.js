@@ -23,14 +23,12 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/signup';
 import LoadingBar from 'react-redux-loading-bar';
 import { useSelector } from 'react-redux';
-import Private from './util/Private';
 
 const App = () => {
   const [dark, setDark] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const isActive = userInfo?.isActive;
   const isAdmin = userInfo?.isAdmin;
-  console.log(isAdmin, isActive);
 
   return (
     <div className={`user-view ${dark ? 'dark' : ''}`}>
@@ -48,7 +46,7 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path='accounts'>
               <Route index element={<List />} />
-              <Route path=':userId' element={<Account />} />
+              <Route path=':id' element={<Account />} />
               <Route
                 path='new'
                 element={<New inputs={userInputs} title='Add New User' />}

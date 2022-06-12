@@ -4,9 +4,11 @@ const userController = require('../controllers/users')
 
 user.get('/',userAuth,adminAuth,userController.index)
 user.post('/add',userController.add)
-user.post('/changePass',userAuth,userController.change_pass)
+user.put('/activate/:id',userAuth,adminAuth,userController.activateUser)
+user.put('/suspend/:id',userAuth,adminAuth,userController.suspendUser)
 user.post('/login',userController.login)
-user.get('/logout',userController.logout)
+user.get('/logout',userAuth,userController.logout)
+// user.post('/changePass',userAuth,userController.change_pass)
 
 
 module.exports = user

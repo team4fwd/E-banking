@@ -5,7 +5,7 @@ const router = require('./routers')
 require('dotenv').config()
 const mongoose = require('mongoose')
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5005
 const MONGODB_URI = process.env.MONGODB_URI 
 
 
@@ -21,7 +21,7 @@ try {
       function(err){if(err){console.log('Error Connection')}else{console.log('Data Base Connected')}}
     )
 } catch (error) {
-    handleError(error);
+    console.log(error);
 }
   
 app.use(cors())

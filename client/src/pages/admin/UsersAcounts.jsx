@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Loadingpage from '../../util/loading/Loading'
-import { GetAllAcounts, AccountActivationAPI} from '../../util/API';
+import { GetAllAcounts, AccountActivationAPI, AccountrejectAPI } from '../../util/API';
+import Switch from '@material-ui/core/Switch';
+import { useN01SwitchStyles } from '@mui-treasury/styles/switch/n01';
 
 
 import {
@@ -52,117 +54,187 @@ function UsersAcounts() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const { token } = useSelector((state) => state.user.userInfo);
-  const [show, setShow] = useState(false);
+  const switchStyles = useN01SwitchStyles();
+  const [error, setError] = useState('');
+  const [success, setsuccess] = useState('');
+  const [filterButtonEl, setFilterButtonEl] = React.useState(null);
+
 
   useEffect(() => {
     setLoading(true);
-   
+
     GetAllAcounts(token).then((data) => {
-        // console.log(data);
-        const accounts = data.map((account) => ({
-          acountId: account._id,
-          userId: account.user_id,
-          amount: account.amount,
-          approve:account.isActive
-        }));
-        // console.log(accounts);
-        setData(accounts);
-        setLoading(false);
+      const accounts = data.map((account) => ({
+        id: account._id,
+        accountId: account._id,
+        userId: account.user_id,
+        amount: account.amount,
+        approve: account.isActive
+      }));
+      setData(accounts);
+      setLoading(false);
 
-      });
+    });
   }, [token]);
-  
 
-  function handleApprove(id) {  
+
+//account activation function
+  const handleApprove = (id) => {
+    console.log(id)
     AccountActivationAPI(id, token)
-   .then((data) => data);}
+      .then((data) => {
+        if (data.status === false) {
+          setLoading(false);
+          setError(data.message);
+        } else {
+          setLoading(false);
+          setsuccess(data.message);
+          GetAllAcounts(token).then((data) => {
+
+            const accounts = data.map((account) => ({
+              id: account._id,
+              accountId: account._id,
+              userId: account.user_id,
+              amount: account.amount,
+              approve: account.isActive
+            }));
+            setData(accounts);
+            setLoading(false);
+
+          });
+
+          setTimeout(() => {
+            setsuccess("");
+          }, 600)
+        }
+  });
+  }
+
+
+  //account reject function
+  const handleReject = (id) => {
+    console.log(id)
+    AccountrejectAPI(id, token)
+      .then((data) => {
+        if (data.status === false) {
+          setLoading(false);
+          setError(data.message);
+        } else {
+          setLoading(false);
+          setsuccess(data.message);
+          GetAllAcounts(token).then((data) => {
+
+            const accounts = data.map((account) => ({
+              id: account._id,
+              accountId: account._id,
+              userId: account.user_id,
+              amount: account.amount,
+              approve: account.isActive
+            }));
+            setData(accounts);
+            setLoading(false);
+
+          });
+
+          setTimeout(() => {
+            setsuccess("");
+          }, 600)
+        }
+      });
+  }
+
 
 
   const columns = [
-    {
-      field: 'acountId',
-      headerName: 'Account id',
-      width: 200,
-  
-    },
-
-    // { field: 'userId', headerName: 'User id', width: 200 },
+    { field: 'accountId', headerName: 'Account id', width: 200 },
+    { field: 'userId', headerName: 'User id', width: 200 },
     { field: 'amount', headerName: 'Amount', width: 120 },
-
     {
       field: 'approve',
-      headerName: 'Approve account',
+      headerName: 'Account status',
       width: 150,
       renderCell: (params) => {
-      
-          if(params === "true"){
-          return (
-           <div className='nowrap'>
-             <p className='usersList__accepted'>
-               Approved
-             </p>
-             </div>)
-            }else{
-              return (
-                <div className='nowrap'>
-                <button className='usersList__acceptedBtn' onClick={handleApprove()}>approve account</button>
-            </div>)}
-      
+        return (
+          <div>
+            <Switch
+              classes={switchStyles}
+              checked={params.value}
+              onClick={(e) => params.value ? handleReject(params.id) : handleApprove(params.id)}
+              onChange={e => e.target.checked}
+            />
+          </div>
+          )
+
       },
     },
-
-
   ];
 
 
-  const [filterButtonEl, setFilterButtonEl] = React.useState(null);
 
   return (
-   
     <div className='usersList'>
-       {loading ? (
-      <Loadingpage />
+      {loading ? (
+        <Loadingpage />
+      ) : (
+        <>
+          <div className='usersList__titleContainer'>
+            <h3 className='usersList__title'>Users Acounts</h3>
+          </div>
+          <div className='usersList__table'>
+            {error ? (
+              <div className='alert alert-danger' role='alert'>
+                {error}
+              </div>
+            ) : (
+              ''
+              )}
+            {success ? (
+              <div className='alert alert-success' role='alert'>
+                {success}
+              </div>
+            ) : (
+              ''
+            )}
+            <DataGrid
+              sx={{
+                fontSize: 15,
+                boxShadow: 2,
+                border: 2,
+                borderColor: 'primary.light',
+                '& .MuiDataGrid-cell:hover': {
+                  color: 'primary.main',
+                },
+                '& .MuiInputLabel-root': {
+                  fontSize: '1.6rem !important',
+                },
+                '& .MuiInput-root': {
+                  fontSize: '1.6rem',
+                },
+              }
+            }
+              rows={data}
+              disableSelectionOnClick
+              columns={columns}
+              pageSize={8}
+              rowsPerPageOptions={[3]}
+              checkboxSelection
+              components={{
+                Toolbar: CustomToolbar,
+                Pagination: CustomPagination,
 
-    ) : (
-       <>
-      <div className='usersList__titleContainer'>
-        <h3 className='usersList__title'>Users Acounts</h3>
-  
-      </div>
-      <div className='usersList__table'>
-        <DataGrid
-          sx={{
-            fontSize: 15,
-            boxShadow: 2,
-            border: 2,
-            borderColor: 'primary.light',
-            '& .MuiDataGrid-cell:hover': {
-              color: 'primary.main',
-            },
-          }}
-          rows={data}
-          disableSelectionOnClick
-          columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          components={{
-            Toolbar: CustomToolbar,
-            Pagination: CustomPagination,
-
-          }}
-          componentsProps={{
-            panel: {
-              anchorEl: filterButtonEl,
-            },
-            toolbar: {
-              setFilterButtonEl,
-            },
-          }}
-        />
-      </div> </>)}
+              }}
+              componentsProps={{
+                panel: {
+                  anchorEl: filterButtonEl,
+                },
+                toolbar: {
+                  setFilterButtonEl,
+                },
+              }}
+            />
+          </div> </>)}
     </div>
-   
+
   );
 }
 export default UsersAcounts;

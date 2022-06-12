@@ -1,17 +1,13 @@
 import * as React from 'react';
 import './UsersList.scss';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Switch from '@mui/material/Switch';
-// import { MdOutlineWarningAmber, MdCheck, MdDeleteOutline } from 'react-icons/md';
+import { MdOutlineWarningAmber, MdCheck} from 'react-icons/md';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Loadingpage from '../../util/loading/Loading'
-import { Button,Modal} from 'react-bootstrap';  
 import { GetAllUsersAPI, activationAPI, suspendAPI} from '../../util/API';
-
 
 import {
   DataGrid,
@@ -45,7 +41,6 @@ function CustomPagination() {
       shape="rounded"
       page={page + 1}
       count={pageCount}
-      // @ts-expect-error
       renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
       onChange={(event, value) => apiRef.current.setPage(value - 1)}
     />
@@ -56,8 +51,10 @@ function UsersList() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const { token } = useSelector((state) => state.user.userInfo);
-  const [sameAddressSwitch, setSameAddressSwitch] = useState();
-  const [show, setShow] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setsuccess] = useState('');
+  const [filterButtonEl, setFilterButtonEl] = React.useState(null);
+
 
   useEffect(() => {
     setLoading(true);
@@ -70,7 +67,8 @@ function UsersList() {
           username: user.name,
           email: user.email,
           phone: user.phone,
-          register: user
+          register: user.isActive,
+          suspend:user.isOpen
         }));
         setData(users);
         setLoading(false);
@@ -78,27 +76,73 @@ function UsersList() {
       });
   }, [token]);
   
-
+//user activation to can he login 
   const handleactivate = (id) => {
-    // console.log(id)
     activationAPI(id, token)
-   .then((data) => 
-   console.log(data)
-   
-   );}
+   .then((data) =>  {
+          if (data.status === false) {
+            setLoading(false);
+            setError(data.message);
+          } else {
+            setLoading(false);
+            setsuccess(data.message);
 
+            GetAllUsersAPI(token).then((data) => {
+              console.log(data);
+              const users = data.map((user) => ({
+                id: user._id,
+                username: user.name,
+                email: user.email,
+                phone: user.phone,
+                register: user.isActive,
+                suspend:user.isOpen
+              }));
+              setData(users);
+              setLoading(false);
+            })
 
+            setTimeout(() => {
+              setsuccess("");
+          },600)
+          }         
+        }   
+   );
+  }
+
+// suspend the user to cann't login
    function handlesuspend(id){
    suspendAPI(id, token)
-   .then((data) => data);}
+   .then((data) =>  {
+          if (data.status === false) {
+            setLoading(false);
+            setError(data.message);
+          } else {
+            setLoading(false);
+            setsuccess(data.message);
 
-
-
-  const handleSwitchOnChange = () => {
-    const newValue = !sameAddressSwitch;
-    setSameAddressSwitch(newValue);
-  };
-
+            setTimeout(() => {
+              setsuccess("");
+              
+          },600)
+          
+          }
+          GetAllUsersAPI(token).then((data) => {
+            console.log(data);
+            const users = data.map((user) => ({
+              id: user._id,
+              username: user.name,
+              email: user.email,
+              phone: user.phone,
+              register: user.isActive,
+              suspend:user.isOpen
+            }));
+            setData(users);
+            setLoading(false);
+    
+          }) 
+        }   
+   );
+  }
 
 
   const columns = [
@@ -106,135 +150,69 @@ function UsersList() {
       field: 'username',
       headerName: 'Name',
       width: 200,
-  
     },
-
     { field: 'email', headerName: 'Email', width: 200 },
     { field: 'phone', headerName: 'Phone', width: 120 },
-    // { field: 'transactions', headerName: 'Transactions', width: 160 },
     {
       field: 'register',
       headerName: 'Verifying user',
       width: 150,
       renderCell: (params) => {
-        return (<button className='usersList__acceptedBtn' onClick={() =>handleactivate(params.id)}>activate</button>)
-        // if(params === "aprovel"){
-        //   return (
-        //    <div className='nowrap'>
-        //       <button className='usersList__rejectedBtn'>rejected</button> <button className='usersList__acceptedBtn'>accepted</button></div>)
-        //     }else{
-        //       return (
-        //     <div className={params === 'rejected' ? "usersList__rejected" : "usersList__accepted"}>
-        //    {params === 'rejected'?<MdOutlineWarningAmber/> :<MdCheck/>}{params}
-        //     </div>)}
+        if(params.value === false){
+          return (
+            <button className='usersList__acceptedBtn' onClick={() => handleactivate(params.id)}>activate</button>
+            )
+            }else{
+              return (
+            <div className={"usersList__accepted nowrap"}><p><MdCheck/> activated</p>
+            </div>)}
       },
     },
-
-
-
-    {
-      field: 'activation',
-      headerName: 'Active/Inactive',
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div>
-            <Switch
-              size='md'
-              // defaultChecked={params}
-              onChange={handleSwitchOnChange}
-            /></div>)
-      },
-    },
-
 
     {
       field: 'suspend',
       headerName: 'suspend',
       width: 150,
       renderCell: (params) => {
-        return (<button className='usersList__rejectedBtn'>suspend</button>)
-        //     if(value === "activate"){
-        // return (
-        //  <div>
-        //     <button className='usersList__rejectedBtn'>suspend</button></div>)
-        //   }else{
-        //     return (
-        //   <div>
-        //  <button className='usersList__acceptedBtn'>activate</button>
-
-        //   </div>
-
-
-        //  )}
-      },
-    },
-    {
-      field: 'aproveRequest',
-      headerName: 'Aprove request',
-      width: 150,
-      renderCell: (params) => {
-
-        const handleShow = () => setShow(params);
-        return (
-          <div
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: "100vh" }}
-        >         
-         <Button variant="primary" onClick={handleShow}>
-          Launch Form modal
-        </Button>
-      <Modal show={show}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login Form</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <></>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" >Close Modal</Button>
-        </Modal.Footer>
-      </Modal>
-        </div>  
-
-
-        )
-        //     if(value === "activate"){
-        // return (
-        //  <div>
-        //     <button className='usersList__rejectedBtn'>suspend</button></div>)
-        //   }else{
-        //     return (
-        //   <div>
-        //  <button className='usersList__acceptedBtn'>activate</button>
-
-        //   </div>
-
-
-        //  )}
+        if(params.value === true){
+          return (
+            <button className='usersList__rejectedBtn' onClick={() => handlesuspend(params.id)}>suspend</button>
+            )
+            }else{
+              return (
+            <div className={"usersList__rejected nowrap"}><p><MdOutlineWarningAmber/> suspended</p>
+            </div>)}
       },
     },
   ];
 
-
-  const [filterButtonEl, setFilterButtonEl] = React.useState(null);
 
   return (
    
     <div className='usersList'>
        {loading ? (
       <Loadingpage />
-
     ) : (
        <>
       <div className='usersList__titleContainer'>
         <h3 className='usersList__title'>Users List</h3>
-        {/* <Link to='newuser'>
-          <button className='usersList__add-btn'>Create</button>
-        </Link> */}
       </div>
       <div className='usersList__table'>
-        {/* <div style={{ height: 400, width: '100%' }}> */}
+      {error ? (
+              <div className='alert alert-danger' role='alert'>
+                {error}
+              </div>
+            ) : (
+              ''
+            )}
+            {success ? (
+              <div className='alert alert-success' role='alert'>
+                {success}
+              </div>
+            ) : (
+              ''
+            )}
+
         <DataGrid
           sx={{
             fontSize: 15,
@@ -265,7 +243,6 @@ function UsersList() {
             },
           }}
         />
-        {/* </div> */}
       </div> </>)}
     </div>
    

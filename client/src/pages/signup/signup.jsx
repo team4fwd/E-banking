@@ -76,13 +76,18 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { message, error } = useSelector((state) => state.user);
+  const { message } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (message) navigate(`/login`);
-  // }, [navigate, message]);
+  useEffect(() => {
+    if (message.status === 'info') {
+      const timer = setTimeout(() => {
+        navigate(`/login`);
+      }, 7000);
+      return () => clearTimeout(timer);
+    }
+  }, [navigate, message]);
 
   const submitHandler = async (user) => {
     dispatch(registerUser(user));
@@ -92,8 +97,14 @@ const Login = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {error && <Alert variant='error' msg={error} time={7} />}
-      {message && <Alert variant='info' msg={message} time={7} />}
+      {message && (
+        <Alert
+          variant={message.status}
+          msg={message.msg}
+          time={7}
+          re={message.id}
+        />
+      )}
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
