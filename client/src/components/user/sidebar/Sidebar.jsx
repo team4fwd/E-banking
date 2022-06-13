@@ -49,10 +49,12 @@ const Sidebar = ({ setDark }) => {
             </li>
           </Link>
           <p className='u-sidebar__center-title'>USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className='u-sidebar__icon' />
-            <span>Profile</span>
-          </li>
+          <Link to='/profile '>
+            <li>
+              <AccountCircleOutlinedIcon className='u-sidebar__icon' />
+              <span>Profile</span>
+            </li>
+          </Link>
           <li onClick={logoutHandler}>
             <ExitToAppIcon className='u-sidebar__icon' />
             <span>Logout</span>

@@ -8,32 +8,37 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getUserTransactions } from '../../../store/actions/userTransactionsActions';
 
 const TableHeadCell = styled(TableCell)`
   font-weight: bold;
   font-size: 1.8rem;
 `;
 
-const TableList = () => {
+const TableList = ({ id }) => {
   const [transactions, setTransactions] = useState([]);
   const userTransactions = useSelector(({ transactions }) => transactions);
-  const { token } = useSelector((state) => state.user.userInfo);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserTransactions(token));
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    setTransactions(userTransactions);
-  }, [userTransactions]);
+    if (id) {
+      setTransactions(
+        userTransactions
+          .filter((trans) => trans.accountNumber === id)
+          .slice(0, 11)
+      );
+    } else {
+      setTransactions(userTransactions.slice(0, 11));
+    }
+  }, [userTransactions, id]);
 
   return (
-    <TableContainer component={Paper} className='table'>
-      <Table aria-label='simple table'>
+    <TableContainer
+      sx={{ maxHeight: 500, maxWidth: '100%' }}
+      component={Paper}
+      className='table'
+    >
+      <Table sx={{ width: '100%' }}>
         <TableHead>
           <TableRow>
             <TableHeadCell className='table__cell'>ID</TableHeadCell>
@@ -42,9 +47,9 @@ const TableList = () => {
             </TableHeadCell>
             <TableHeadCell className='table__cell'>Transaction</TableHeadCell>
             <TableHeadCell className='table__cell'>Amount</TableHeadCell>
+            <TableHeadCell className='table__cell'>Date</TableHeadCell>
             <TableHeadCell className='table__cell'>sender</TableHeadCell>
             <TableHeadCell className='table__cell'>receiver</TableHeadCell>
-            <TableHeadCell className='table__cell'>Date</TableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,9 +63,9 @@ const TableList = () => {
                 {trans.type}
               </TableCell>
               <TableCell className='table__cell'>{trans.amount}</TableCell>
+              <TableCell className='table__cell'>{trans.date}</TableCell>
               <TableCell className='table__cell'>{trans.receiver}</TableCell>
               <TableCell className='table__cell'>{trans.sender}</TableCell>
-              <TableCell className='table__cell'>{trans.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>

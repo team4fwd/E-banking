@@ -1,9 +1,10 @@
 import './Transactions';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { transactionColumns } from '../../../util/tableData';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserTransactions } from '../../../store/actions/userTransactionsActions';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 const TransactionLog = () => {
   const [transactions, setTransactions] = useState([]);
@@ -19,17 +20,27 @@ const TransactionLog = () => {
     setTransactions(userTransactions);
   }, [userTransactions]);
 
+  const theme = createTheme({
+    typography: {
+      htmlFontSize: 10,
+    },
+  });
+
   return (
-    <div className='datatable'>
-      <DataGrid
-        className='datagrid'
-        rows={transactions}
-        columns={transactionColumns}
-        pageSize={8}
-        rowsPerPageOptions={[9]}
-        checkboxSelection
-      />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className='datatable'>
+        <DataGrid
+          className='datagrid'
+          rows={transactions}
+          columns={transactionColumns}
+          pageSize={7}
+          rowsPerPageOptions={[7]}
+          components={{
+            Toolbar: GridToolbar,
+          }}
+        />
+      </div>
+    </ThemeProvider>
   );
 };
 export default TransactionLog;

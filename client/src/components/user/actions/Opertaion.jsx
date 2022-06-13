@@ -18,6 +18,10 @@ const Operation = ({ type, token, id, currentAmount }) => {
     setMsg(message);
   }, [message]);
 
+  useEffect(() => {
+    setMsg(null);
+  }, []);
+
   const submitHandler = (e) => {
     e.preventDefault();
     setMsg(null);

@@ -5,6 +5,7 @@ import {
   operateMoneyAPI,
   transferMoneyAPI,
 } from '../../util/API';
+import { getUserTransactions } from './userTransactionsActions';
 
 const ADD_ACCOUNT = 'ADD_ACCOUNT';
 const GET_USER_ACCOUNTS = 'GET_USER_ACCOUNTS';
@@ -76,10 +77,11 @@ const operateMoney = (type, id, amount, token) => async (dispatch) => {
   try {
     dispatch(showLoading());
     const { account, error } = await operateMoneyAPI(type, id, amount, token);
-    dispatch(hideLoading());
     if (error) throw new Error(error);
     if (type === 'withdrow') dispatch(withdraw(account));
     if (type === 'recharge') dispatch(deposit(account));
+    dispatch(getUserTransactions(token));
+    dispatch(hideLoading());
   } catch (err) {
     dispatch(accountFailed(err.message));
   }
@@ -97,6 +99,7 @@ const transferMoney = (to, from, amount, token) => async (dispatch) => {
     dispatch(hideLoading());
     if (error) throw new Error(error);
     dispatch(transfer(transferObj));
+    dispatch(getUserTransactions(token));
   } catch (err) {
     dispatch(accountFailed(err.message));
   }

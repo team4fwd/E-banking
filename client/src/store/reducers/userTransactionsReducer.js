@@ -32,7 +32,9 @@ const transactionsReducer = (state = [], action) => {
           sender: trans.user_account_from,
         })),
       ];
-      return transactions;
+      return transactions.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
     default:
       return state;
   }

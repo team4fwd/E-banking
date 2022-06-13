@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { getUserAccounts } from '../../../store/actions/userAccountsActions';
+import { getUserTransactions } from '../../../store/actions/userTransactionsActions';
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import './layout.scss';
@@ -13,6 +14,7 @@ const Layout = ({ setDark }) => {
   useEffect(() => {
     if (userInfo.isActive) {
       dispatch(getUserAccounts(userInfo.token));
+      dispatch(getUserTransactions(userInfo.token));
     }
   }, [dispatch, userInfo]);
 

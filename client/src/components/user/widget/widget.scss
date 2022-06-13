@@ -5,7 +5,8 @@
   justify-content: space-between;
   box-shadow: 0.2rem 0.4rem 1rem rgba(201, 201, 201, 0.47);
   border-radius: 1rem;
-  height: 10rem;
+  // height: 10rem;
+  width: max-content;
 
   &__left,
   &__right {
@@ -15,6 +16,7 @@
   }
 
   &__left {
+    gap: 1rem;
     &-title {
       font-weight: bold;
       font-size: 1.4rem;
@@ -38,6 +40,7 @@
       display: flex;
       align-items: center;
       font-size: 1.4rem;
+      visibility: hidden;
 
       &.positive {
         color: green;

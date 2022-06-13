@@ -21,6 +21,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/signup';
 import LoadingBar from 'react-redux-loading-bar';
 import { useSelector } from 'react-redux';
+import Profile from './pages/profile/Profile';
 
 const App = () => {
   const [dark, setDark] = useState(false);
@@ -51,6 +52,7 @@ const App = () => {
               />
             </Route>
             <Route path='transactions' element={<Transactions />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
           {isAdmin && (
             <Route path='/admin' element={<Admin />}>

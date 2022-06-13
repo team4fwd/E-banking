@@ -10,6 +10,7 @@ import { Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../store/actions/userActions';
 import { useDispatch } from 'react-redux';
+import profileImg from '../../../profile.png';
 
 const Navbar = ({ setDark }) => {
   const [toggle, setToggle] = useState();
@@ -21,6 +22,7 @@ const Navbar = ({ setDark }) => {
   const handleClose = (e) => {
     console.log(e.currentTarget.textContent);
     setOpen(null);
+    if (e.currentTarget.textContent === 'Profile') navigate('/profile');
     if (e.currentTarget.textContent === 'My accounts') navigate('/accounts');
     if (e.currentTarget.textContent === 'Logout') dispatch(logoutUser());
   };
@@ -83,11 +85,7 @@ const Navbar = ({ setDark }) => {
             <ListOutlinedIcon className='icon' />
           </div>
           <div className='u-navbar__item' onClick={handleClick}>
-            <img
-              src='https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'
-              alt=''
-              className='avatar'
-            />
+            <img src={profileImg} alt='' className='avatar' />
           </div>
           <Menu
             id='menu'
@@ -99,6 +97,9 @@ const Navbar = ({ setDark }) => {
             }}
             sx={{ fontSize: '1.8rem' }}
           >
+            <MenuItem sx={{ fontSize: '1.3rem' }} onClick={handleClose}>
+              Profile
+            </MenuItem>
             <MenuItem sx={{ fontSize: '1.3rem' }} onClick={handleClose}>
               My accounts
             </MenuItem>

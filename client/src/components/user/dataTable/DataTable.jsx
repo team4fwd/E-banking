@@ -13,6 +13,7 @@ const DataTable = () => {
   const { accounts, message } = useSelector((state) => state.accounts);
 
   useEffect(() => {
+    setMsg(null);
     setData(
       accounts &&
         accounts.map((account) => ({
@@ -25,8 +26,7 @@ const DataTable = () => {
           balance: account.amount,
         }))
     );
-    setMsg(message);
-  }, [accounts, message]);
+  }, [accounts]);
 
   const handleClick = (status, id) => {
     if (status === 'active') {
