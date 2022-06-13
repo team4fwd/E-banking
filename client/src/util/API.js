@@ -93,6 +93,15 @@ export const GetAllUsersAPI = (token) =>
     },
   })
     .then((res) => res.json())
+
+    export const LogoutAPI = (token) => 
+  fetch('https://banksystem-fwd.herokuapp.com/users/logout', {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+  })
+    .then((res) => res.json())
   
 
 

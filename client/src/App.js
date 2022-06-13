@@ -9,7 +9,6 @@ import AdminHome from './pages/admin/AdminHome';
 import UsersList from './pages/admin/UsersList';
 import UsersAcounts from './pages/admin/UsersAcounts';
 
-import User from './pages/admin/User';
 import Layout from './components/user/layout/Layout';
 import Home from './pages/home/Home';
 import Account from './pages/account/Account';
@@ -58,7 +57,6 @@ const App = () => {
             <Route path='/admin' element={<Admin />}>
               <Route index element={<AdminHome />} />
               <Route path='home' element={<AdminHome />} />
-              <Route path='user' element={<User />} />
               <Route path='usersList' element={<UsersList />} />
               <Route path='usersAcounts' element={<UsersAcounts />} />
             </Route>

@@ -4,18 +4,20 @@ import {
   MdLineStyle,
   MdPermIdentity,
 } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../store/actions/userActions';
 import { useDispatch } from 'react-redux';
-import {MdAccountCircle, MdOutlineLogout} from 'react-icons/md';
+import { MdAccountCircle, MdOutlineLogout } from 'react-icons/md';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
-    
+    navigate("/login")
   };
   return (
     <div className='sidebar'>
@@ -29,13 +31,13 @@ const Sidebar = () => {
                 Home
               </li>
             </Link>
-          
+
           </ul>
         </div>
         <div className='sidebar__menu'>
           <h3 className='sidebar__title'>Quick Menu</h3>
           <ul className='sidebar__list'>
-        
+
             <Link to='usersList' className='route-link'>
               <li className='sidebar__list-item'>
                 <MdPermIdentity className='sidebar__icon' />
@@ -49,13 +51,14 @@ const Sidebar = () => {
               </li>
             </Link>
 
-            {/* <li onClick={logoutHandler}>
-            <MdOutlineLogout className='u-sidebar__icon' />
-            <span>Logout</span>
-          </li>
-              */}
-         
-        
+            <div className='route-link logout' >
+              <li className='sidebar__list-item' onClick={logoutHandler}>
+                <MdOutlineLogout className='sidebar__icon' />
+                <span>Logout</span>
+              </li>
+            </div>
+
+
           </ul>
         </div>
       </div>
