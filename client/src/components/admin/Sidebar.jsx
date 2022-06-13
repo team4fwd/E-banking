@@ -49,11 +49,11 @@ const Sidebar = () => {
               </li>
             </Link>
 
-            <li onClick={logoutHandler}>
+            {/* <li onClick={logoutHandler}>
             <MdOutlineLogout className='u-sidebar__icon' />
             <span>Logout</span>
           </li>
-             
+              */}
          
         
           </ul>

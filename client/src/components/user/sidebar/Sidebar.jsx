@@ -51,10 +51,10 @@ const Sidebar = ({ setDark }) => {
             <AccountCircleOutlinedIcon className='u-sidebar__icon' />
             <span>Profile</span>
           </li>
-          {/* <li onClick={logoutHandler}>
+          <li onClick={logoutHandler}>
             <ExitToAppIcon className='u-sidebar__icon' />
             <span>Logout</span>
-          </li> */}
+          </li>
         </ul>
       </div>
       <div className='u-sidebar__bottom'>
