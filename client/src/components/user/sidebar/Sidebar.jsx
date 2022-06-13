@@ -3,6 +3,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import './sidebar.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -20,6 +21,7 @@ const Sidebar = ({ setDark }) => {
     <div className='u-sidebar'>
       <div className='u-sidebar__top'>
         <Link to='/'>
+          <AccountBalanceIcon className='u-sidebar__top__logoIcon' />
           <span className='u-sidebar__top__logo'>E-banking</span>
         </Link>
       </div>
@@ -47,10 +49,12 @@ const Sidebar = ({ setDark }) => {
             </li>
           </Link>
           <p className='u-sidebar__center-title'>USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className='u-sidebar__icon' />
-            <span>Profile</span>
-          </li>
+          <Link to='/profile '>
+            <li>
+              <AccountCircleOutlinedIcon className='u-sidebar__icon' />
+              <span>Profile</span>
+            </li>
+          </Link>
           <li onClick={logoutHandler}>
             <ExitToAppIcon className='u-sidebar__icon' />
             <span>Logout</span>

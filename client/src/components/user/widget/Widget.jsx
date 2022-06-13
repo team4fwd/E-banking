@@ -12,7 +12,7 @@ const Widget = ({ type, amount }) => {
       <div className='widget__left'>
         <div className='widget__left-title'>{data.title}</div>
         <div className='widget__left-counter'>
-          {data.isMoney && '$'} {amount || 0}
+          {data.isMoney ? `$${amount || 0}` : amount || 0}
         </div>
         {data.link && (
           <Link to={data.href}>

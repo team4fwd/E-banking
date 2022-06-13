@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { operateMoney } from '../../../store/actions/userAccountsActions';
+import {
+  operateMoney,
+  transferMoney,
+} from '../../../store/actions/userAccountsActions';
 import Alert from '../../Alert/Alert';
 import './operation.scss';
 
@@ -14,6 +17,10 @@ const Operation = ({ type, token, id, currentAmount }) => {
   useEffect(() => {
     setMsg(message);
   }, [message]);
+
+  useEffect(() => {
+    setMsg(null);
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -29,12 +36,12 @@ const Operation = ({ type, token, id, currentAmount }) => {
     }
     switch (type) {
       case 'transfer':
-        // call api and transfer amount
+        dispatch(transferMoney(to, id, amount, token));
+        setAmount(0);
         break;
       case 'recharge':
         dispatch(operateMoney(type, id, amount, token));
         setAmount(0);
-        // setMsg(message);
         break;
       case 'withdrow':
         if (amount > currentAmount) {
@@ -47,7 +54,6 @@ const Operation = ({ type, token, id, currentAmount }) => {
         }
         dispatch(operateMoney(type, id, amount, token));
         setAmount(0);
-        // setMsg(message);
         break;
       default:
         break;

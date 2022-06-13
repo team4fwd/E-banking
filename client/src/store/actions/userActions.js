@@ -1,5 +1,6 @@
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { LogInAPI, SignUpAPI } from '../../util/API';
+import { clearAccounts } from './userAccountsActions';
 
 const LOGIN = 'LOGIN';
 const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -61,6 +62,7 @@ const registerUser = (userInfo) => async (dispatch) => {
 const logoutUser = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch(logUserOut());
+  dispatch(clearAccounts());
 };
 
 export {

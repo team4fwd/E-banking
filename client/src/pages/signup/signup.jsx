@@ -81,10 +81,10 @@ const Login = (props) => {
   const { message } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (message.status === 'info') {
+    if (message && message.status === 'info') {
       const timer = setTimeout(() => {
         navigate(`/login`);
-      }, 7000);
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, [navigate, message]);
