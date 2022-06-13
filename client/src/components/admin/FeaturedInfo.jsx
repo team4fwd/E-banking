@@ -1,6 +1,6 @@
 import React from 'react';
 import './FeaturedInfo.scss';
-import { MdPerson, MdPersonAddAlt1} from 'react-icons/md';
+import { MdPerson, MdPersonAddAlt1 } from 'react-icons/md';
 
 const FeaturedInfo = () => {
   return (
@@ -16,7 +16,7 @@ const FeaturedInfo = () => {
         <span className='featured__sub'>3.154 Total Users</span>
       </div>
       <div className='featured__item'>
-        <span className='featured__title'>TODAY CTIVE USERS</span>
+        <span className='featured__title'>TODAY ACTIVE USERS</span>
         <div className='featured__money-container'>
           <span className='featured__money'>230</span>
           <span className='featured__money-rate'>

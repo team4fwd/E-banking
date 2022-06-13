@@ -6,7 +6,7 @@ import TableList from '../../components/user/table/Table';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
-  const accounts = useSelector((state) => state.accounts.accounts.length);
+  const accounts = useSelector((state) => state?.accounts?.accounts?.length);
   const userTrans = useSelector(({ transactions }) => transactions);
   const income = userTrans.reduce(
     (sum, curr) => (curr.kind === 'income' ? sum + curr.amount : sum),

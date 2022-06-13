@@ -85,87 +85,69 @@ export const AddAccountAPI = async (amount, token) => {
   }
 };
 
-
-export const GetAllUsersAPI = (token) => 
+export const GetAllUsersAPI = (token) =>
   fetch('https://banksystem-fwd.herokuapp.com/users', {
     headers: {
       'Content-Type': 'application/json',
       'x-access-token': token,
     },
-  })
-    .then((res) => res.json())
+  }).then((res) => res.json());
 
-    export const LogoutAPI = (token) => 
+export const LogoutAPI = (token) =>
   fetch('https://banksystem-fwd.herokuapp.com/users/logout', {
     headers: {
       'Content-Type': 'application/json',
       'x-access-token': token,
     },
-  })
-    .then((res) => res.json())
-  
+  }).then((res) => res.json());
 
+export const activationAPI = (id, token) =>
+  fetch(`https://banksystem-fwd.herokuapp.com/users/activate/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: JSON.stringify({ isActive: true }),
+  }).then((res) => res.json());
 
-    export const activationAPI = (id, token) =>
-   
-   fetch(`https://banksystem-fwd.herokuapp.com/users/activate/${id}`, {
-     method: 'PUT',
-     headers: {
-       'Content-Type': 'application/json',
-       'x-access-token': token,
-     },
-     body: JSON.stringify({"isActive": true}),
-   }).then((res) => res.json())
+export const suspendAPI = (id, token) =>
+  fetch(`https://banksystem-fwd.herokuapp.com/users/suspend/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: null,
+  }).then((res) => res.json());
 
-   
-  
-   
+export const GetAllAcounts = (token) =>
+  fetch('https://banksystem-fwd.herokuapp.com/account/allaccounts', {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+  }).then((res) => res.json());
 
-   export const suspendAPI = (id, token) =>
-   fetch(`https://banksystem-fwd.herokuapp.com/users/suspend/${id}`, {
-     method: 'PUT',
-     headers: {
-       'Content-Type': 'application/json',
-       'x-access-token': token,
-     },
-     body: null,
-   }).then((res) => res.json())
+export const AccountActivationAPI = (id, token) =>
+  fetch(`https://banksystem-fwd.herokuapp.com/account/activate/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: null,
+  }).then((res) => res.json());
 
-
-   export const GetAllAcounts = (token) => 
-    fetch('https://banksystem-fwd.herokuapp.com/account/allaccounts', {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': token,
-      },
-    })
-      .then((res) => res.json())
-  
-
-      export const AccountActivationAPI = (id, token) =>
-        fetch(`https://banksystem-fwd.herokuapp.com/account/activate/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token,
-          },
-          body: null,
-        }).then((res) => res.json())
-
-
-        export const AccountrejectAPI = (id, token) =>
-        fetch(`https://banksystem-fwd.herokuapp.com/account/reject/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token,
-          },
-          body: null,
-        }).then((res) => res.json())
-
-
-
-
+export const AccountrejectAPI = (id, token) =>
+  fetch(`https://banksystem-fwd.herokuapp.com/account/reject/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+    body: null,
+  }).then((res) => res.json());
 
 export const operateMoneyAPI = async (type, id, amount, token) => {
   try {
