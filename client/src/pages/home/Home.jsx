@@ -1,6 +1,6 @@
 import './home.scss';
 import Widget from '../../components/user/widget/Widget';
-import Featured from '../../components/user/featured/Featured';
+// import Featured from '../../components/user/featured/Featured';
 import Chart from '../../components/user/chart/Chart';
 import TableList from '../../components/user/table/Table';
 import { useSelector } from 'react-redux';

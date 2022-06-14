@@ -10,7 +10,7 @@ const DataTable = () => {
   const navigate = useNavigate();
   const [msg, setMsg] = useState('');
   const [data, setData] = useState([]);
-  const { accounts, message } = useSelector((state) => state.accounts);
+  const { accounts } = useSelector((state) => state.accounts);
 
   useEffect(() => {
     setMsg(null);
