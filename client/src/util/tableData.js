@@ -58,7 +58,7 @@ export const transactionColumns = [
   {
     field: 'sender',
     headerName: 'Sender',
-    width: 150,
+    width: 250,
   },
   {
     field: 'receiver',

@@ -5,8 +5,12 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import Loadingpage from '../../util/loading/Loading'
-import { GetAllAcounts, AccountActivationAPI, AccountrejectAPI } from '../../util/API';
+import Loadingpage from '../../util/loading/Loading';
+import {
+  GetAllAcounts,
+  AccountActivationAPI,
+  AccountrejectAPI,
+} from '../../util/API';
 import Switch from '@material-ui/core/Switch';
 import { useN01SwitchStyles } from '@mui-treasury/styles/switch/n01';
 import {
@@ -36,9 +40,9 @@ function CustomPagination() {
 
   return (
     <Pagination
-      color="primary"
-      variant="outlined"
-      shape="rounded"
+      color='primary'
+      variant='outlined'
+      shape='rounded'
       page={page + 1}
       count={pageCount}
       // @ts-expect-error
@@ -57,7 +61,6 @@ function UsersAcounts() {
   const [success, setsuccess] = useState('');
   const [filterButtonEl, setFilterButtonEl] = React.useState(null);
 
-
   useEffect(() => {
     setLoading(true);
 
@@ -67,85 +70,74 @@ function UsersAcounts() {
         accountId: account._id,
         userId: account.user_id,
         amount: account.amount,
-        approve: account.isActive
+        approve: account.isActive,
       }));
       setData(accounts);
       setLoading(false);
-
     });
   }, [token]);
 
-
   //account activation function
   const handleApprove = (id) => {
-    console.log(id)
-    AccountActivationAPI(id, token)
-      .then((data) => {
-        if (data.status === false) {
+    console.log(id);
+    AccountActivationAPI(id, token).then((data) => {
+      if (data.status === false) {
+        setLoading(false);
+        setError(data.message);
+      } else {
+        setLoading(false);
+        setsuccess(data.message);
+        GetAllAcounts(token).then((data) => {
+          const accounts = data.map((account) => ({
+            id: account._id,
+            accountId: account._id,
+            userId: account.user_id,
+            amount: account.amount,
+            approve: account.isActive,
+          }));
+          setData(accounts);
           setLoading(false);
-          setError(data.message);
-        } else {
-          setLoading(false);
-          setsuccess(data.message);
-          GetAllAcounts(token).then((data) => {
+        });
 
-            const accounts = data.map((account) => ({
-              id: account._id,
-              accountId: account._id,
-              userId: account.user_id,
-              amount: account.amount,
-              approve: account.isActive
-            }));
-            setData(accounts);
-            setLoading(false);
-
-          });
-
-          setTimeout(() => {
-            setsuccess("");
-          }, 600)
-        }
-      });
-  }
-
+        setTimeout(() => {
+          setsuccess('');
+        }, 600);
+      }
+    });
+  };
 
   //account reject function
   const handleReject = (id) => {
-    console.log(id)
-    AccountrejectAPI(id, token)
-      .then((data) => {
-        if (data.status === false) {
+    console.log(id);
+    AccountrejectAPI(id, token).then((data) => {
+      if (data.status === false) {
+        setLoading(false);
+        setError(data.message);
+      } else {
+        setLoading(false);
+        setsuccess(data.message);
+        GetAllAcounts(token).then((data) => {
+          const accounts = data.map((account) => ({
+            id: account._id,
+            accountId: account._id,
+            userId: account.user_id,
+            amount: account.amount,
+            approve: account.isActive,
+          }));
+          setData(accounts);
           setLoading(false);
-          setError(data.message);
-        } else {
-          setLoading(false);
-          setsuccess(data.message);
-          GetAllAcounts(token).then((data) => {
+        });
 
-            const accounts = data.map((account) => ({
-              id: account._id,
-              accountId: account._id,
-              userId: account.user_id,
-              amount: account.amount,
-              approve: account.isActive
-            }));
-            setData(accounts);
-            setLoading(false);
-
-          });
-
-          setTimeout(() => {
-            setsuccess("");
-          }, 600)
-        }
-      });
-  }
-
-
+        setTimeout(() => {
+          setsuccess('');
+        }, 600);
+      }
+    });
+  };
 
   const columns = [
-    { field: 'accountId', headerName: 'Account id', width: 200 },
-    { field: 'userId', headerName: 'User id', width: 200 },
+    { field: 'accountId', headerName: 'Account id', width: 300 },
+    { field: 'userId', headerName: 'User id', width: 300 },
     { field: 'amount', headerName: 'Amount', width: 120 },
     {
       field: 'approve',
@@ -157,17 +149,18 @@ function UsersAcounts() {
             <Switch
               classes={switchStyles}
               checked={params.value}
-              onClick={(e) => params.value ? handleReject(params.id) : handleApprove(params.id)}
-              onChange={e => e.target.checked}
+              onClick={(e) =>
+                params.value
+                  ? handleReject(params.id)
+                  : handleApprove(params.id)
+              }
+              onChange={(e) => e.target.checked}
             />
           </div>
-        )
-
+        );
       },
     },
   ];
-
-
 
   return (
     <div className='usersList'>
@@ -208,8 +201,7 @@ function UsersAcounts() {
                 '& .MuiInput-root': {
                   fontSize: '1.6rem',
                 },
-              }
-              }
+              }}
               rows={data}
               disableSelectionOnClick
               columns={columns}
@@ -219,7 +211,6 @@ function UsersAcounts() {
               components={{
                 Toolbar: CustomToolbar,
                 Pagination: CustomPagination,
-
               }}
               componentsProps={{
                 panel: {
@@ -234,9 +225,6 @@ function UsersAcounts() {
         </>
       )}
     </div>
-
   );
 }
 export default UsersAcounts;
-
-

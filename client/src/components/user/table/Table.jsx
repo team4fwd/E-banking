@@ -64,8 +64,8 @@ const TableList = ({ id }) => {
               </TableCell>
               <TableCell className='table__cell'>{trans.amount}</TableCell>
               <TableCell className='table__cell'>{trans.date}</TableCell>
-              <TableCell className='table__cell'>{trans.receiver}</TableCell>
               <TableCell className='table__cell'>{trans.sender}</TableCell>
+              <TableCell className='table__cell'>{trans.receiver}</TableCell>
             </TableRow>
           ))}
         </TableBody>

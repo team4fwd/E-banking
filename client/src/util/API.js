@@ -63,8 +63,8 @@ export const SignUpAPI = async (userInfo) => {
 export const MyAccountsAPI = async (token) => {
   try {
     const accounts = await fetchAPI('account/myaccounts', { token });
-    if (accounts && accounts.length === 0)
-      throw new Error("You don't have accounts please add your first account!");
+    // if (accounts && accounts.length === 0)
+    //   throw new Error("You don't have accounts please add your first account!");
     return { accounts };
   } catch (err) {
     return { error: err.message || 'Something went wrong!' };

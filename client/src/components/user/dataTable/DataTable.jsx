@@ -15,16 +15,17 @@ const DataTable = () => {
   useEffect(() => {
     setMsg(null);
     setData(
-      accounts &&
-        accounts.map((account) => ({
-          id: account._id,
-          status: account.pending
-            ? 'pending'
-            : account.isActive
-            ? 'active'
-            : 'rejected',
-          balance: account.amount,
-        }))
+      accounts
+        ? accounts.map((account) => ({
+            id: account._id,
+            status: account.pending
+              ? 'pending'
+              : account.isActive
+              ? 'active'
+              : 'rejected',
+            balance: account.amount,
+          }))
+        : []
     );
   }, [accounts]);
 
