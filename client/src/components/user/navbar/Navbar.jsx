@@ -20,7 +20,6 @@ const Navbar = ({ setDark }) => {
   const [open, setOpen] = useState(null);
   const handleClick = (e) => setOpen(e.currentTarget);
   const handleClose = (e) => {
-    console.log(e.currentTarget.textContent);
     setOpen(null);
     if (e.currentTarget.textContent === 'Profile') navigate('/profile');
     if (e.currentTarget.textContent === 'My accounts') navigate('/accounts');

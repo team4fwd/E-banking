@@ -165,7 +165,6 @@ export const operateMoneyAPI = async (type, id, amount, token) => {
 
 export const transferMoneyAPI = async (to, from, amount, token) => {
   try {
-    console.log(to, from, amount, token);
     const data = await fetchAPI(`transformations`, {
       token,
       body: {

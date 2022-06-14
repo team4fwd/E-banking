@@ -79,7 +79,6 @@ function UsersAcounts() {
 
   //account activation function
   const handleApprove = (id) => {
-    console.log(id);
     AccountActivationAPI(id, token).then((data) => {
       if (data.status === false) {
         setLoading(false);
@@ -108,7 +107,6 @@ function UsersAcounts() {
 
   //account reject function
   const handleReject = (id) => {
-    console.log(id);
     AccountrejectAPI(id, token).then((data) => {
       if (data.status === false) {
         setLoading(false);

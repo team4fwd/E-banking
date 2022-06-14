@@ -61,7 +61,6 @@ function UsersList() {
 
     GetAllUsersAPI(token)
       .then((data) => {
-        console.log(data);
         const users = data.map((user) => ({
           id: user._id,
           username: user.name,
@@ -88,7 +87,6 @@ function UsersList() {
           setsuccess(data.message);
 
           GetAllUsersAPI(token).then((data) => {
-            console.log(data);
             const users = data.map((user) => ({
               id: user._id,
               username: user.name,
@@ -127,7 +125,6 @@ function UsersList() {
 
         }
         GetAllUsersAPI(token).then((data) => {
-          console.log(data);
           const users = data.map((user) => ({
             id: user._id,
             username: user.name,

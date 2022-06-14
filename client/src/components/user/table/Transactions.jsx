@@ -20,8 +20,6 @@ const TransactionLog = () => {
     setTransactions(userTransactions);
   }, [userTransactions]);
 
-  console.log(transactions);
-
   const theme = createTheme({
     typography: {
       htmlFontSize: 10,
