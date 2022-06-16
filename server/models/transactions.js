@@ -23,12 +23,9 @@ const transactionsSchema = mongoose.Schema({
     transactionType : {
         type        : String,
         required    : true
-    },
-    createAt : {
-        type : Date,
-        default : new Date()
     }
-    
+},{
+    timestamps: true
 })
 
 const transaction = mongoose.model("transaction",transactionsSchema)
