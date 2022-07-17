@@ -65,13 +65,15 @@ function UsersAcounts() {
     setLoading(true);
 
     GetAllAcounts(token).then((data) => {
-      const accounts = data.map((account) => ({
-        id: account._id,
-        accountId: account._id,
-        userId: account.user_id,
-        amount: account.amount,
-        approve: account.isActive,
-      }));
+      const accounts = data
+        .map((account) => ({
+          id: account._id,
+          accountId: account._id,
+          userId: account.user_id,
+          amount: account.amount,
+          approve: account.isActive,
+        }))
+        .reverse();
       setData(accounts);
       setLoading(false);
     });
@@ -87,13 +89,15 @@ function UsersAcounts() {
         setLoading(false);
         setsuccess(data.message);
         GetAllAcounts(token).then((data) => {
-          const accounts = data.map((account) => ({
-            id: account._id,
-            accountId: account._id,
-            userId: account.user_id,
-            amount: account.amount,
-            approve: account.isActive,
-          }));
+          const accounts = data
+            .map((account) => ({
+              id: account._id,
+              accountId: account._id,
+              userId: account.user_id,
+              amount: account.amount,
+              approve: account.isActive,
+            }))
+            .reverse();
           setData(accounts);
           setLoading(false);
         });
@@ -115,13 +119,15 @@ function UsersAcounts() {
         setLoading(false);
         setsuccess(data.message);
         GetAllAcounts(token).then((data) => {
-          const accounts = data.map((account) => ({
-            id: account._id,
-            accountId: account._id,
-            userId: account.user_id,
-            amount: account.amount,
-            approve: account.isActive,
-          }));
+          const accounts = data
+            .map((account) => ({
+              id: account._id,
+              accountId: account._id,
+              userId: account.user_id,
+              amount: account.amount,
+              approve: account.isActive,
+            }))
+            .reverse();
           setData(accounts);
           setLoading(false);
         });
